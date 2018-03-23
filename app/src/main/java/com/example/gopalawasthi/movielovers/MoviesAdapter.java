@@ -28,12 +28,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolde
 
     List<Nowplaying.ResultsBean> resultBeans;
     Context context;
-    int ScreenSize=0;
+
     public static final String IMAGE ="http://image.tmdb.org/t/p/w1280";
-    public MoviesAdapter(List<Nowplaying.ResultsBean> resultBeans, Context context,int ScreenSize) {
-        this.resultBeans = resultBeans;
-        this.context = context;
-        this.ScreenSize= ScreenSize;
+    public MoviesAdapter(List<Nowplaying.ResultsBean> resultBeans, Context context) {
+        this.resultBeans = resultBeans;this.context = context;
+
     }
 
 
@@ -53,12 +52,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolde
         holder.name.setText(bean.getTitle());
        String  a=  Float.toString((float) bean.getVote_average());
         holder.rating.setText(a);
-        String b =bean.getPoster_path();
+        String b =bean.getBackdrop_path();
 
         Picasso.get()
                 .load(IMAGE+bean.getBackdrop_path())
-                .resize(1080,640)
-                .centerCrop()
+                .fit()
                 .into(holder.imageView);
 
     }

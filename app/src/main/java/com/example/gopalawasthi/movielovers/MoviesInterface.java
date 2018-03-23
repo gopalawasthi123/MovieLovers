@@ -22,4 +22,11 @@ public interface MoviesInterface {
                                          @Query("api_key") String Key,
                                          @Query("language") String en,
                                          @Query("page") int numpage);
+
+    @GET("3/movie/{category}")
+    Call<TopRated> gettopRatedMovies (@Path("category") String name,
+                                      @Query("api_key") String Key,
+                                      @Query("language") String en,
+                                      @Query("page") int numpage);
+
 }

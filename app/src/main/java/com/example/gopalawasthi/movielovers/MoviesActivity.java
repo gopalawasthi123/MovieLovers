@@ -26,6 +26,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -45,6 +46,7 @@ public class MoviesActivity extends AppCompatActivity
 
     public static final String CATEGORY = "now_playing";
     public static final String POPULAR_CATEGORY= "popular";
+    public static final String TOPRATED_CATEGORY ="top_rated";
     public static final String LANGUGAGE ="en-US";
     public static final int PAGE =1;
     public static final String API_key ="f05e7eb1cb1d184b717962fc1230e9c1";
@@ -55,17 +57,13 @@ public class MoviesActivity extends AppCompatActivity
     MoviesAdapter adapter;
     popularmovieadapter popularmovieadapter;
     List<PopularMovies.ResultsBean> popularList;
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        elasticDownloadView.success();
-    }
-
+    List<TopRated.ResultsBean> toprated;
+    topratedAdapter topratedAdapter;
     List<Nowplaying.ResultsBean> List;
     ProgressBar progressBar;
     LinearLayout headernowplaying;
     LinearLayout headerpopular;
+    RecyclerView recyclertoprated;
 //    GridLayoutManager gridLayoutManager;
 
     @Override
@@ -76,12 +74,13 @@ public class MoviesActivity extends AppCompatActivity
                 Configuration.SCREENLAYOUT_SIZE_MASK;
         headernowplaying = findViewById(R.id.nowplayingheader);
         headerpopular = findViewById(R.id.popularheader);
-        progressBar = findViewById(R.id.progressbar);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         elasticDownloadView = findViewById(R.id.elastic_download_view);
         elasticDownloadView.startIntro();
         elasticDownloadView.setProgress(100);
+       // elasticDownloadView.success();
 
 //         gridLayoutManager = new GridLayoutManager(this,2,LinearLayoutManager.HORIZONTAL,false);
 //        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -93,8 +92,12 @@ public class MoviesActivity extends AppCompatActivity
 
         // for now playing
         createfornowplaying();
-      //for popularmovies
+
+        //for popularmovies
         creaforpopularmovies();
+
+        //for top-ratedmovies
+        createfortoprated();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -106,6 +109,35 @@ public class MoviesActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    private void createfortoprated() {
+        recyclertoprated = findViewById(R.id.thirdrecycler);
+        toprated = new ArrayList<>();
+        fetchdatafortoprated();
+        topratedAdapter = new topratedAdapter(this,toprated);
+        recyclertoprated.setAdapter(topratedAdapter);
+        recyclertoprated.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+
+        }
+
+    private void fetchdatafortoprated() {
+        Call<TopRated> topRatedCall = ApiClient.getINSTANCE().getMoviesInterface().gettopRatedMovies(TOPRATED_CATEGORY,API_key,LANGUGAGE,PAGE);
+        topRatedCall.enqueue(new Callback<TopRated>() {
+            @Override
+            public void onResponse(Call<TopRated> call, Response<TopRated> response) {
+                if(response.body()!=null){
+                    toprated.clear();
+                    toprated.addAll(response.body().getResults());
+                    topratedAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TopRated> call, Throwable t) {
+
+            }
+        });
+    }
+
     private void creaforpopularmovies() {
     recyclerpopular = findViewById(R.id.secondrecycler);
         popularList = new ArrayList<>();
@@ -113,10 +145,9 @@ public class MoviesActivity extends AppCompatActivity
         headerpopular.setVisibility(View.GONE);
         elasticDownloadView.setVisibility(View.VISIBLE);
         fetchdataforpopular();
-        popularList = new ArrayList<>();
         popularmovieadapter = new popularmovieadapter(this,popularList);
         recyclerpopular.setAdapter(popularmovieadapter);
-        recyclerpopular.setLayoutManager(new StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL));
+        recyclerpopular.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
 
 
 
@@ -160,7 +191,7 @@ public class MoviesActivity extends AppCompatActivity
         recyclerView.setVisibility(View.GONE);
         headernowplaying.setVisibility(View.GONE);
         fetchdatafromnetwork();
-        adapter =  new MoviesAdapter(List,this,screenSize);
+        adapter =  new MoviesAdapter(List,this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false));
         recyclerView.setItemAnimator( new DefaultItemAnimator());
@@ -168,7 +199,6 @@ public class MoviesActivity extends AppCompatActivity
 
     }
 
-    //TODO :  nowplaying fetch moives
         private void fetchdatafromnetwork() {
 
         Call<Nowplaying> nowplayingCall = ApiClient.getINSTANCE().getMoviesInterface().getnowplayingMovies(CATEGORY,API_key,LANGUGAGE,PAGE);
@@ -213,7 +243,10 @@ public class MoviesActivity extends AppCompatActivity
         getMenuInflater().inflate(R.menu.main2, menu);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_settings));
         SearchManager searchManager =(SearchManager) getSystemService(SEARCH_SERVICE);
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
+        if(searchManager.getSearchableInfo(getComponentName())!=null) {
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        }
         return true;
     }
 

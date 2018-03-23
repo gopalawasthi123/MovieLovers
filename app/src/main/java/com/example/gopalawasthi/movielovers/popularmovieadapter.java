@@ -33,7 +33,7 @@ public class popularmovieadapter extends RecyclerView.Adapter<popularmovieadapte
     @Override
     public MovieHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = layoutInflater.inflate(R.layout.custompopularmovies,parent,false);
+        View v = layoutInflater.inflate(R.layout.custom_nowplayingview,parent,false);
         popularmovieadapter.MovieHolder holder = new popularmovieadapter.MovieHolder(v);
         return holder;
 
@@ -42,12 +42,12 @@ public class popularmovieadapter extends RecyclerView.Adapter<popularmovieadapte
     @Override
     public void onBindViewHolder(@NonNull MovieHolder holder, int position) {
        PopularMovies.ResultsBean bean = beans.get(position);
-//        holder.name.setText(bean.getTitle());
-//        String  a=  Float.toString((float) bean.getVote_average());
-//        holder.rating.setText(a);
+        holder.name.setText(bean.getTitle());
+        String  a=  Float.toString((float) bean.getVote_average());
+        holder.rating.setText(a);
         String b =bean.getPoster_path();
 
-        Picasso.get().load(IMAGE+bean.getBackdrop_path()).resize(320,480).centerInside().into(holder.imageView);
+        Picasso.get().load(IMAGE+bean.getBackdrop_path()).fit().into(holder.imageView);
 
     }
 
@@ -64,9 +64,9 @@ public class popularmovieadapter extends RecyclerView.Adapter<popularmovieadapte
         public MovieHolder(View itemView) {
             super(itemView);
             this.itemView = itemView;
-//            name = itemView.findViewById(R.id.nowshowingtitle);
-            imageView = itemView.findViewById(R.id.popularmoviesimage);
-//            rating = itemView.findViewById(R.id.userrating);
+            name = itemView.findViewById(R.id.nowshowingtitle);
+            imageView = itemView.findViewById(R.id.imagenowplaying);
+            rating = itemView.findViewById(R.id.userrating);
 
 
         }
