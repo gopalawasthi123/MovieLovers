@@ -3,14 +3,14 @@ package com.example.gopalawasthi.movielovers;
 import java.util.List;
 
 /**
- * Created by Gopal Awasthi on 19-03-2018.
+ * Created by Gopal Awasthi on 22-03-2018.
  */
 
-  public class Nowplaying {
+public class PopularMovies {
+
 
     private int page;
     private int total_results;
-    private DatesBean dates;
     private int total_pages;
     private List<ResultsBean> results;
 
@@ -30,14 +30,6 @@ import java.util.List;
         this.total_results = total_results;
     }
 
-    public DatesBean getDates() {
-        return dates;
-    }
-
-    public void setDates(DatesBean dates) {
-        this.dates = dates;
-    }
-
     public int getTotal_pages() {
         return total_pages;
     }
@@ -54,40 +46,14 @@ import java.util.List;
         this.results = results;
     }
 
-    public static class DatesBean {
-        /**
-         * maximum : 2018-03-19
-         * minimum : 2018-01-29
-         */
-
-        private String maximum;
-        private String minimum;
-
-        public String getMaximum() {
-            return maximum;
-        }
-
-        public void setMaximum(String maximum) {
-            this.maximum = maximum;
-        }
-
-        public String getMinimum() {
-            return minimum;
-        }
-
-        public void setMinimum(String minimum) {
-            this.minimum = minimum;
-        }
-    }
-
     public static class ResultsBean {
         /**
-         * vote_count : 1009
+         * vote_count : 1020
          * id : 337167
          * video : false
          * vote_average : 6.2
          * title : Fifty Shades Freed
-         * popularity : 592.721736
+         * popularity : 587.469069
          * poster_path : /jjPJ4s3DWZZvI4vw8Xfi4Vqa1Q8.jpg
          * original_language : en
          * original_title : Fifty Shades Freed

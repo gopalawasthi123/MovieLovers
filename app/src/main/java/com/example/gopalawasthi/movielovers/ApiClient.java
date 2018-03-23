@@ -1,5 +1,7 @@
 package com.example.gopalawasthi.movielovers;
 
+import android.util.JsonReader;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -16,17 +18,18 @@ public class ApiClient {
 
     private MoviesInterface moviesInterface;
 
-    private ApiClient(){
+    private ApiClient() {
+
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
 
-        Retrofit retrofit = new Retrofit.Builder()
-                            .baseUrl("https://developers.themoviedb.org/")
-                            .addConverterFactory(GsonConverterFactory.create(gson))
-                            .build();
-        moviesInterface = retrofit.create(MoviesInterface.class);
-    }
+    Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl("https://api.themoviedb.org/")
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build();
+    moviesInterface =retrofit.create(MoviesInterface.class);
+}
 
     public static ApiClient getINSTANCE (){
         if(INSTANCE==null){

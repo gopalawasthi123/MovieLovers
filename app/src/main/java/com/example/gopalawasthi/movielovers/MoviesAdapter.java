@@ -1,18 +1,24 @@
 package com.example.gopalawasthi.movielovers;
 
 import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
-
+import android.content.res.Resources;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+
+
 
 /**
  * Created by Gopal Awasthi on 19-03-2018.
@@ -20,13 +26,17 @@ import java.util.List;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolder>{
 
-    List<Nowplaying.ResultBean> resultBeans;
+    List<Nowplaying.ResultsBean> resultBeans;
     Context context;
-
-    public MoviesAdapter(List<Nowplaying.ResultBean> resultBeans, Context context) {
+    int ScreenSize=0;
+    public static final String IMAGE ="http://image.tmdb.org/t/p/w1280";
+    public MoviesAdapter(List<Nowplaying.ResultsBean> resultBeans, Context context,int ScreenSize) {
         this.resultBeans = resultBeans;
         this.context = context;
+        this.ScreenSize= ScreenSize;
     }
+
+
 
     @NonNull
     @Override
@@ -39,10 +49,17 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolde
 
     @Override
     public void onBindViewHolder(@NonNull MovieHolder holder, int position) {
-        Nowplaying.ResultBean bean = resultBeans.get(position);
+        Nowplaying.ResultsBean bean = resultBeans.get(position);
         holder.name.setText(bean.getTitle());
-        holder.rating.setText(bean.getVote_average()+"");
-        Picasso.get().load(bean.getPoster_id()).into(holder.imageView);
+       String  a=  Float.toString((float) bean.getVote_average());
+        holder.rating.setText(a);
+        String b =bean.getPoster_path();
+
+        Picasso.get()
+                .load(IMAGE+bean.getBackdrop_path())
+                .resize(1080,640)
+                .centerCrop()
+                .into(holder.imageView);
 
     }
 
@@ -51,6 +68,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolde
     public int getItemCount() {
         return resultBeans.size();
     }
+
+
 
     class MovieHolder extends RecyclerView.ViewHolder{
         TextView name ;

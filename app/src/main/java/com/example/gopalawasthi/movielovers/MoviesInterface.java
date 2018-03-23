@@ -12,9 +12,14 @@ import retrofit2.http.Query;
 public interface MoviesInterface {
 
     @GET("3/movie/{category}")
-    Call<Nowplaying> getnowplayingMovies(@Path("category")String name,
-                                         @Query("api_key" )String Key,
-                                         @Query("language")String en,
-                                         @Query("page")int numpage);
+    Call<Nowplaying> getnowplayingMovies (@Path("category") String name,
+                                         @Query("api_key") String Key,
+                                         @Query("language") String en,
+                                         @Query("page") int numpage);
 
+    @GET("3/movie/{category}")
+    Call<PopularMovies> getpopularMovies(@Path("category") String name,
+                                         @Query("api_key") String Key,
+                                         @Query("language") String en,
+                                         @Query("page") int numpage);
 }
