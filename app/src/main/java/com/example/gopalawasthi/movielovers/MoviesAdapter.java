@@ -29,9 +29,15 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolde
     List<Nowplaying.ResultsBean> resultBeans;
     Context context;
 
+    interface onitemclicklistener{
+        void onItemclick(int position);
+    }
+    onitemclicklistener listener;
+
     public static final String IMAGE ="http://image.tmdb.org/t/p/w1280";
-    public MoviesAdapter(List<Nowplaying.ResultsBean> resultBeans, Context context) {
+    public MoviesAdapter(List<Nowplaying.ResultsBean> resultBeans, Context context,onitemclicklistener listener) {
         this.resultBeans = resultBeans;this.context = context;
+        this.listener =listener;
 
     }
 
@@ -47,13 +53,18 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolde
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MovieHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final MovieHolder holder, int position) {
         Nowplaying.ResultsBean bean = resultBeans.get(position);
         holder.name.setText(bean.getTitle());
        String  a=  Float.toString((float) bean.getVote_average());
         holder.rating.setText(a);
         String b =bean.getBackdrop_path();
-
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            listener.onItemclick(holder.getAdapterPosition());
+            }
+        });
         Picasso.get()
                 .load(IMAGE+bean.getBackdrop_path())
                 .fit()

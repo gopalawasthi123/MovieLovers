@@ -1,5 +1,10 @@
 package com.example.gopalawasthi.movielovers;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
 import java.util.List;
 
 /**
@@ -99,6 +104,7 @@ import java.util.List;
          */
 
         private int vote_count;
+
         private int id;
         private boolean video;
         private double vote_average;
@@ -111,6 +117,7 @@ import java.util.List;
         private boolean adult;
         private String overview;
         private String release_date;
+
         private List<Integer> genre_ids;
 
         public int getVote_count() {

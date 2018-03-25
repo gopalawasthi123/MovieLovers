@@ -1,10 +1,14 @@
 package com.example.gopalawasthi.movielovers;
 
 import android.app.SearchManager;
+import android.arch.persistence.room.Room;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
@@ -16,9 +20,11 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.MenuItemHoverListener;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.SnapHelper;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -29,6 +35,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -36,13 +43,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import is.arontibo.library.ElasticDownloadView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MoviesActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,MoviesAdapter.onitemclicklistener {
+
+    TextView viewallnowplaying;
 
     public static final String CATEGORY = "now_playing";
     public static final String POPULAR_CATEGORY= "popular";
@@ -51,7 +59,7 @@ public class MoviesActivity extends AppCompatActivity
     public static final int PAGE =1;
     public static final String API_key ="f05e7eb1cb1d184b717962fc1230e9c1";
     int screenSize;
-    ElasticDownloadView elasticDownloadView;
+
     RecyclerView recyclerView;
     RecyclerView recyclerpopular;
     MoviesAdapter adapter;
@@ -64,6 +72,7 @@ public class MoviesActivity extends AppCompatActivity
     LinearLayout headernowplaying;
     LinearLayout headerpopular;
     RecyclerView recyclertoprated;
+
 //    GridLayoutManager gridLayoutManager;
 
     @Override
@@ -75,12 +84,12 @@ public class MoviesActivity extends AppCompatActivity
         headernowplaying = findViewById(R.id.nowplayingheader);
         headerpopular = findViewById(R.id.popularheader);
 
+        viewallnowplaying = findViewById(R.id.showallnowplaying);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        elasticDownloadView = findViewById(R.id.elastic_download_view);
-        elasticDownloadView.startIntro();
-        elasticDownloadView.setProgress(100);
-       // elasticDownloadView.success();
+
+        //TOdo connectivity manager for the internet check
+
 
 //         gridLayoutManager = new GridLayoutManager(this,2,LinearLayoutManager.HORIZONTAL,false);
 //        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -116,8 +125,10 @@ public class MoviesActivity extends AppCompatActivity
         topratedAdapter = new topratedAdapter(this,toprated);
         recyclertoprated.setAdapter(topratedAdapter);
         recyclertoprated.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        SnapHelper snapHelper = new LinearSnapHelper();
+        snapHelper.attachToRecyclerView(recyclertoprated);
 
-        }
+    }
 
     private void fetchdatafortoprated() {
         Call<TopRated> topRatedCall = ApiClient.getINSTANCE().getMoviesInterface().gettopRatedMovies(TOPRATED_CATEGORY,API_key,LANGUGAGE,PAGE);
@@ -127,6 +138,7 @@ public class MoviesActivity extends AppCompatActivity
                 if(response.body()!=null){
                     toprated.clear();
                     toprated.addAll(response.body().getResults());
+
                     topratedAdapter.notifyDataSetChanged();
                 }
             }
@@ -143,12 +155,14 @@ public class MoviesActivity extends AppCompatActivity
         popularList = new ArrayList<>();
         recyclerpopular.setVisibility(View.GONE);
         headerpopular.setVisibility(View.GONE);
-        elasticDownloadView.setVisibility(View.VISIBLE);
+
         fetchdataforpopular();
+
         popularmovieadapter = new popularmovieadapter(this,popularList);
         recyclerpopular.setAdapter(popularmovieadapter);
         recyclerpopular.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
-
+       SnapHelper snapHelper = new LinearSnapHelper();
+       snapHelper.attachToRecyclerView(recyclerpopular);
 
 
     }
@@ -167,7 +181,7 @@ public class MoviesActivity extends AppCompatActivity
 
                     recyclerpopular.setVisibility(View.VISIBLE);
                     headerpopular.setVisibility(View.VISIBLE);
-                    elasticDownloadView.setVisibility(View.GONE);
+
 
                 }
 
@@ -175,8 +189,7 @@ public class MoviesActivity extends AppCompatActivity
 
             @Override
             public void onFailure(Call<PopularMovies> call, Throwable t) {
-                elasticDownloadView.setProgress(50);
-               elasticDownloadView.fail();
+
             }
         });
 
@@ -187,15 +200,22 @@ public class MoviesActivity extends AppCompatActivity
 
         List = new ArrayList<>();
         recyclerView = findViewById(R.id.recyclerview);
-        elasticDownloadView.setVisibility(View.VISIBLE);
+//        movieDatabase = Room.databaseBuilder(this,MovieDatabase.class,"mymovies").allowMainThreadQueries().build();
+//              movieDao=  movieDatabase.getMovieDao();
+//              List<Nowplaying.ResultsBean> list =movieDao.getnowplaing();
         recyclerView.setVisibility(View.GONE);
         headernowplaying.setVisibility(View.GONE);
         fetchdatafromnetwork();
-        adapter =  new MoviesAdapter(List,this);
+        adapter =  new MoviesAdapter(List,this,this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false));
         recyclerView.setItemAnimator( new DefaultItemAnimator());
+//        List.clear();
+//        List.addAll(list);
+//        adapter.notifyDataSetChanged();
 
+        SnapHelper snapHelper = new LinearSnapHelper();
+        snapHelper.attachToRecyclerView(recyclerView);
 
     }
 
@@ -210,7 +230,7 @@ public class MoviesActivity extends AppCompatActivity
                     List.clear();
                     List.addAll(root.getResults());
                     adapter.notifyDataSetChanged();
-                   elasticDownloadView.setVisibility(View.GONE);
+
                     recyclerView.setVisibility(View.VISIBLE);
                     headernowplaying.setVisibility(View.VISIBLE);
                 }
@@ -218,8 +238,7 @@ public class MoviesActivity extends AppCompatActivity
             }
             @Override
             public void onFailure(Call<Nowplaying> call, Throwable t) {
-                elasticDownloadView.setProgress(50);
-                elasticDownloadView.fail();
+
             }
         });
 
@@ -288,5 +307,18 @@ public class MoviesActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void showallnowplaying(View view) {
+
+
+
+    }
+
+    @Override
+    public void onItemclick(int position) {
+        Toast.makeText(this, "Item open new activity", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this,MainActivity.class);
+        startActivity(intent);
     }
 }
