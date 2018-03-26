@@ -28,15 +28,16 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolde
 
     List<Nowplaying.ResultsBean> resultBeans;
     Context context;
-
+    onitemclicklistener listener;
     interface onitemclicklistener{
         void onItemclick(int position);
     }
-    onitemclicklistener listener;
+
 
     public static final String IMAGE ="http://image.tmdb.org/t/p/w1280";
     public MoviesAdapter(List<Nowplaying.ResultsBean> resultBeans, Context context,onitemclicklistener listener) {
-        this.resultBeans = resultBeans;this.context = context;
+        this.resultBeans = resultBeans;
+        this.context = context;
         this.listener =listener;
 
     }
@@ -85,7 +86,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolde
         ImageView imageView;
         TextView rating;
         View itemView;
-        public MovieHolder(View itemView) {
+
+         MovieHolder(View itemView) {
             super(itemView);
             this.itemView = itemView;
             name = itemView.findViewById(R.id.nowshowingtitle);

@@ -48,7 +48,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MoviesActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,MoviesAdapter.onitemclicklistener {
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     TextView viewallnowplaying;
 
@@ -206,8 +206,14 @@ public class MoviesActivity extends AppCompatActivity
         recyclerView.setVisibility(View.GONE);
         headernowplaying.setVisibility(View.GONE);
         fetchdatafromnetwork();
-        adapter =  new MoviesAdapter(List,this,this);
+        adapter =  new MoviesAdapter(List, this, new MoviesAdapter.onitemclicklistener() {
+            @Override
+            public void onItemclick(int position) {
+                Toast.makeText(MoviesActivity.this, "item click at position"+position, Toast.LENGTH_SHORT).show();
+            }
+        });
         recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false));
         recyclerView.setItemAnimator( new DefaultItemAnimator());
 //        List.clear();
@@ -310,15 +316,22 @@ public class MoviesActivity extends AppCompatActivity
     }
 
     public void showallnowplaying(View view) {
-
-
+        Intent intent = new Intent(this,ShowallList.class);
+        intent.addCategory("nowplaying");
+        startActivity(intent);
 
     }
 
-    @Override
-    public void onItemclick(int position) {
-        Toast.makeText(this, "Item open new activity", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this,MainActivity.class);
+
+    public void showallpopular(View view) {
+        Intent intent = new Intent(this,ShowallList.class);
+        intent.addCategory("popular");
+        startActivity(intent);
+    }
+
+    public void showalltoprated(View view) {
+        Intent intent = new Intent(this,ShowallList.class);
+        intent.addCategory("toprated");
         startActivity(intent);
     }
 }
