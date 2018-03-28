@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,7 +12,13 @@
     tools:context="com.example.gopalawasthi.movielovers.MoviesActivity"
     tools:showIn="@layout/app_bar_main2">
 
-    <ScrollView
+
+    <com.example.gopalawasthi.movielovers.CustomSwipetoRefresh android:id="@+id/swiperefreshlayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -18,7 +26,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:stretchColumns="1">
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -54,10 +61,13 @@
                         android:text="Show all"/>
 
                 </LinearLayout>
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+
+
+                  <android.support.v7.widget.RecyclerView
+                      android:id="@+id/recyclerview"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content" />
+
 
                 <LinearLayout
                     android:id="@+id/popularheader"
@@ -123,11 +133,13 @@
                     android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
 
             </LinearLayout>
+
+
         </TableLayout>
 
+    </android.support.v4.widget.NestedScrollView>
+</com.example.gopalawasthi.movielovers.CustomSwipetoRefresh>
 
-    </ScrollView>
-
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
 
 

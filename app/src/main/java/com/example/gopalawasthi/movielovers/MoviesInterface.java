@@ -29,4 +29,9 @@ public interface MoviesInterface {
                                       @Query("language") String en,
                                       @Query("page") int numpage);
 
+    @GET("3/movie/{movie_id}/credits")
+    Call<MovieCredits> getcastMovies (@Path("movie_id") int id,
+                                    @Query("api_key") String key);
+
+
 }

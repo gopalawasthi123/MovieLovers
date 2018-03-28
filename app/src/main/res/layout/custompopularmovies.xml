@@ -17,9 +17,12 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/popularmoviesimage"
+            android:id="@+id/moviecredits"
             android:layout_width="170dp"
             android:layout_height="200dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             app:srcCompat="@mipmap/ic_launcher" />
 
 

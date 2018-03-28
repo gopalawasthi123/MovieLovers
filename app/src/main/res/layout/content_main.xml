@@ -1,14 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#424242"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.gopalawasthi.movielovers.MainActivity"
     tools:showIn="@layout/activity_main">
 
+    <com.example.gopalawasthi.movielovers.CustomSwipetoRefresh
+        android:id="@+id/descriptionswipe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="186dp"
+        android:layout_marginLeft="11dp"
+        android:layout_marginStart="11dp">
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stretchColumns="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorWhite"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
+                        android:textSize="20sp" />
 
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Cast"
+                        android:textSize="24sp" />
 
-</android.support.constraint.ConstraintLayout>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclermoviecast"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+
+
+                </LinearLayout>
+
+            </TableLayout>
+
+
+        </android.support.v4.widget.NestedScrollView>
+
+    </com.example.gopalawasthi.movielovers.CustomSwipetoRefresh>
+
+
+</android.support.design.widget.CoordinatorLayout>

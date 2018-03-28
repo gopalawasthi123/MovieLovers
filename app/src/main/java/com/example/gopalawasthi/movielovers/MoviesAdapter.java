@@ -34,7 +34,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolde
     }
 
 
-    public static final String IMAGE ="http://image.tmdb.org/t/p/w1280";
+    public static final String IMAGE ="http://image.tmdb.org/t/p/w780";
     public MoviesAdapter(List<Nowplaying.ResultsBean> resultBeans, Context context,onitemclicklistener listener) {
         this.resultBeans = resultBeans;
         this.context = context;
@@ -54,17 +54,20 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolde
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final MovieHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final MovieHolder holder, final int position) {
         Nowplaying.ResultsBean bean = resultBeans.get(position);
         holder.name.setText(bean.getTitle());
        String  a=  Float.toString((float) bean.getVote_average());
         holder.rating.setText(a);
-        String b =bean.getBackdrop_path();
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+//        String b =bean.getBackdrop_path();
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
             listener.onItemclick(holder.getAdapterPosition());
             }
+
+
+
         });
         Picasso.get()
                 .load(IMAGE+bean.getBackdrop_path())
@@ -73,13 +76,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolde
 
     }
 
-
     @Override
     public int getItemCount() {
         return resultBeans.size();
     }
-
-
 
     class MovieHolder extends RecyclerView.ViewHolder{
         TextView name ;
@@ -93,8 +93,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolde
             name = itemView.findViewById(R.id.nowshowingtitle);
             imageView = itemView.findViewById(R.id.imagenowplaying);
             rating = itemView.findViewById(R.id.userrating);
-
-
         }
     }
 }

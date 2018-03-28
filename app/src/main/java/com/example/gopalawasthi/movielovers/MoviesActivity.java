@@ -14,6 +14,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -48,7 +49,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MoviesActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, MoviesAdapter.onitemclicklistener {
 
     TextView viewallnowplaying;
 
@@ -59,7 +60,7 @@ public class MoviesActivity extends AppCompatActivity
     public static final int PAGE =1;
     public static final String API_key ="f05e7eb1cb1d184b717962fc1230e9c1";
     int screenSize;
-
+    CustomSwipetoRefresh swipeRefreshLayout ;
     RecyclerView recyclerView;
     RecyclerView recyclerpopular;
     MoviesAdapter adapter;
@@ -83,7 +84,7 @@ public class MoviesActivity extends AppCompatActivity
                 Configuration.SCREENLAYOUT_SIZE_MASK;
         headernowplaying = findViewById(R.id.nowplayingheader);
         headerpopular = findViewById(R.id.popularheader);
-
+        swipeRefreshLayout = findViewById(R.id.swiperefreshlayout);
         viewallnowplaying = findViewById(R.id.showallnowplaying);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -108,6 +109,17 @@ public class MoviesActivity extends AppCompatActivity
         //for top-ratedmovies
         createfortoprated();
 
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                createfornowplaying();
+                creaforpopularmovies();
+                createfortoprated();
+
+            }
+        });
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -125,6 +137,7 @@ public class MoviesActivity extends AppCompatActivity
         topratedAdapter = new topratedAdapter(this,toprated);
         recyclertoprated.setAdapter(topratedAdapter);
         recyclertoprated.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        recyclertoprated.setOnFlingListener(null);
         SnapHelper snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(recyclertoprated);
 
@@ -161,6 +174,7 @@ public class MoviesActivity extends AppCompatActivity
         popularmovieadapter = new popularmovieadapter(this,popularList);
         recyclerpopular.setAdapter(popularmovieadapter);
         recyclerpopular.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        recyclerpopular.setOnFlingListener(null);
        SnapHelper snapHelper = new LinearSnapHelper();
        snapHelper.attachToRecyclerView(recyclerpopular);
 
@@ -197,7 +211,8 @@ public class MoviesActivity extends AppCompatActivity
 
 
     private void createfornowplaying() {
-
+        swipeRefreshLayout.setRefreshing(true);
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimaryDark),getResources().getColor(R.color.colorWhite));
         List = new ArrayList<>();
         recyclerView = findViewById(R.id.recyclerview);
 //        movieDatabase = Room.databaseBuilder(this,MovieDatabase.class,"mymovies").allowMainThreadQueries().build();
@@ -206,22 +221,22 @@ public class MoviesActivity extends AppCompatActivity
         recyclerView.setVisibility(View.GONE);
         headernowplaying.setVisibility(View.GONE);
         fetchdatafromnetwork();
-        adapter =  new MoviesAdapter(List, this, new MoviesAdapter.onitemclicklistener() {
-            @Override
-            public void onItemclick(int position) {
-                Toast.makeText(MoviesActivity.this, "item click at position"+position, Toast.LENGTH_SHORT).show();
-            }
-        });
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+        adapter =  new MoviesAdapter(List, this,this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false));
         recyclerView.setItemAnimator( new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
+        recyclerView.setOnFlingListener(null);
+        SnapHelper snapHelper = new LinearSnapHelper();
+        snapHelper.attachToRecyclerView(recyclerView);
+
+        adapter.notifyDataSetChanged();
+        swipeRefreshLayout.setRefreshing(false);
+
 //        List.clear();
 //        List.addAll(list);
 //        adapter.notifyDataSetChanged();
 
-        SnapHelper snapHelper = new LinearSnapHelper();
-        snapHelper.attachToRecyclerView(recyclerView);
+
 
     }
 
@@ -333,5 +348,20 @@ public class MoviesActivity extends AppCompatActivity
         Intent intent = new Intent(this,ShowallList.class);
         intent.addCategory("toprated");
         startActivity(intent);
+    }
+
+    @Override
+    public void onItemclick(int position) {
+        Intent intent = new Intent(this,MainActivity.class);
+        int a = List.get(position).getId();
+      String b =  List.get(position).getTitle();
+        intent.putExtra("movieid",a);
+        intent.putExtra("moviename",b);
+        intent.putExtra("movieposter",List.get(position).getPoster_path());
+        intent.putExtra("moviebackdrop",List.get(position).getBackdrop_path());
+        intent.putExtra("description",List.get(position).getOverview());
+        startActivity(intent);
+        Toast.makeText(this, "position is "+position, Toast.LENGTH_SHORT).show();
+
     }
 }
