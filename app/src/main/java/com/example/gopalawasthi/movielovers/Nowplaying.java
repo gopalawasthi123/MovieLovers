@@ -84,7 +84,7 @@ import java.util.List;
             this.minimum = minimum;
         }
     }
-
+    @Entity(tableName = "beansList")
     public static class ResultsBean {
         /**
          * vote_count : 1009
@@ -102,22 +102,30 @@ import java.util.List;
          * overview : Believing they have left behind shadowy figures from their past, newlyweds Christian and Ana fully embrace an inextricable connection and shared life of luxury. But just as she steps into her role as Mrs. Grey and he relaxes into an unfamiliar stability, new threats could jeopardize their happy ending before it even begins.
          * release_date : 2018-02-07
          */
-
+        @Ignore
         private int vote_count;
-
+        @PrimaryKey
         private int id;
+        @Ignore
         private boolean video;
         private double vote_average;
         private String title;
+        @Ignore
         private double popularity;
+        @Ignore
         private String poster_path;
+        @Ignore
         private String original_language;
+        @Ignore
         private String original_title;
         private String backdrop_path;
+        @Ignore
         private boolean adult;
+        @Ignore
         private String overview;
+        @Ignore
         private String release_date;
-
+        @Ignore
         private List<Integer> genre_ids;
 
         public int getVote_count() {

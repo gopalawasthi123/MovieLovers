@@ -77,6 +77,8 @@ public class MoviesActivity extends AppCompatActivity
     RecyclerView recyclerupcoming;
     List<Nowplaying.ResultsBean> upcominglist;
     MoviesAdapter myupcoming;
+    Moviedatabase moviedatabase;
+    MoviesDao dao;
 
 
 //    GridLayoutManager gridLayoutManager;
@@ -272,17 +274,21 @@ public class MoviesActivity extends AppCompatActivity
 //        movieDatabase = Room.databaseBuilder(this,MovieDatabase.class,"mymovies").allowMainThreadQueries().build();
 //              movieDao=  movieDatabase.getMovieDao();
 //              List<Nowplaying.ResultsBean> list =movieDao.getnowplaing();
+
+        moviedatabase = Moviedatabase.getINSTANCE(this);
+        dao = moviedatabase.getMovieDao();
+        List = dao.getallmovies();
         recyclerView.setVisibility(View.GONE);
         headernowplaying.setVisibility(View.GONE);
-        fetchdatafromnetwork();
         adapter =  new MoviesAdapter(List, this,this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false));
         recyclerView.setItemAnimator( new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
         recyclerView.setOnFlingListener(null);
         SnapHelper snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(recyclerView);
-
+        fetchdatafromnetwork();
         adapter.notifyDataSetChanged();
         swipeRefreshLayout.setRefreshing(false);
 
@@ -305,7 +311,7 @@ public class MoviesActivity extends AppCompatActivity
                     List.clear();
                     List.addAll(root.getResults());
                     adapter.notifyDataSetChanged();
-
+                    dao.oninsertMovies(List);
                     recyclerView.setVisibility(View.VISIBLE);
                     headernowplaying.setVisibility(View.VISIBLE);
                 }
