@@ -44,6 +44,7 @@ public class DescriptionAdapter extends RecyclerView.Adapter<DescriptionAdapter.
         MovieCredits.CastBean resultsBean = beans.get(position);
      //    holder.description.setText(resultsBean.);
          Picasso.get().load(IMAGE+resultsBean.getProfile_path()).fit().into(holder.moviecredits);
+         holder.actorname.setText(resultsBean.getName());
 //         Picasso.get().load(IMAGE+resultsBean.getPoster_path()).fit().into(holder.poster);
     }
 
@@ -56,12 +57,13 @@ public class DescriptionAdapter extends RecyclerView.Adapter<DescriptionAdapter.
 
         View itemView;
         ImageView moviecredits;
+        TextView actorname;
 
         public MyHolder(View itemView) {
             super(itemView);
             this.itemView = itemView;
                 moviecredits = itemView.findViewById(R.id.moviecredits);
-
+                actorname = itemView.findViewById(R.id.actorname);
         }
     }
 }

@@ -22,11 +22,16 @@ import static com.example.gopalawasthi.movielovers.MoviesAdapter.IMAGE;
 public class popularmovieadapter extends RecyclerView.Adapter<popularmovieadapter.MovieHolder>{
 
     Context context;
-    List<PopularMovies.ResultsBean> beans;
+    List<Nowplaying.ResultsBean> beans;
     public static final String IMAGE ="http://image.tmdb.org/t/p/w1280";
-    public popularmovieadapter(Context context, List<PopularMovies.ResultsBean> beans) {
+    interface  OnitemClicklistener{
+        void OnitemClick(int position);
+    }
+    OnitemClicklistener clicklistener;
+    public popularmovieadapter(Context context, List<Nowplaying.ResultsBean> beans,OnitemClicklistener clicklistener) {
         this.context = context;
         this.beans = beans;
+        this.clicklistener = clicklistener;
     }
 
     @NonNull
@@ -40,13 +45,18 @@ public class popularmovieadapter extends RecyclerView.Adapter<popularmovieadapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MovieHolder holder, int position) {
-       PopularMovies.ResultsBean bean = beans.get(position);
+    public void onBindViewHolder(@NonNull final MovieHolder holder, int position) {
+       Nowplaying.ResultsBean bean = beans.get(position);
         holder.name.setText(bean.getTitle());
         String  a=  Float.toString((float) bean.getVote_average());
         holder.rating.setText(a);
         String b =bean.getPoster_path();
-
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clicklistener.OnitemClick(holder.getAdapterPosition());
+            }
+        });
         Picasso.get().load(IMAGE+bean.getBackdrop_path()).fit().into(holder.imageView);
 
     }
@@ -67,7 +77,6 @@ public class popularmovieadapter extends RecyclerView.Adapter<popularmovieadapte
             name = itemView.findViewById(R.id.nowshowingtitle);
             imageView = itemView.findViewById(R.id.imagenowplaying);
             rating = itemView.findViewById(R.id.userrating);
-
 
         }
     }

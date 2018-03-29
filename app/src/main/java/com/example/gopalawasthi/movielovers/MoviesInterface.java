@@ -18,13 +18,13 @@ public interface MoviesInterface {
                                          @Query("page") int numpage);
 
     @GET("3/movie/{category}")
-    Call<PopularMovies> getpopularMovies(@Path("category") String name,
+    Call<Nowplaying> getpopularMovies(@Path("category") String name,
                                          @Query("api_key") String Key,
                                          @Query("language") String en,
                                          @Query("page") int numpage);
 
     @GET("3/movie/{category}")
-    Call<TopRated> gettopRatedMovies (@Path("category") String name,
+    Call<Nowplaying> gettopRatedMovies (@Path("category") String name,
                                       @Query("api_key") String Key,
                                       @Query("language") String en,
                                       @Query("page") int numpage);

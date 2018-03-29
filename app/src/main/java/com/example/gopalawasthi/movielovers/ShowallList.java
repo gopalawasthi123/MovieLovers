@@ -48,6 +48,9 @@ public class ShowallList extends AppCompatActivity {
         }else if(intent.hasCategory("toprated")){
             a = "top_rated";
             createfornowplaying(a);
+        }else if(intent.hasCategory("upcoming")){
+            a= "upcoming";
+            createfornowplaying(a);
         }
 
 
@@ -68,6 +71,15 @@ public class ShowallList extends AppCompatActivity {
             @Override
             public void onItemclick(int position) {
                 Toast.makeText(ShowallList.this, "item click at position"+position, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(ShowallList.this,MainActivity.class);
+                int a = list.get(position).getId();
+                String b =  list.get(position).getTitle();
+                intent.putExtra("movieid",a);
+                intent.putExtra("moviename",b);
+                intent.putExtra("movieposter",list.get(position).getPoster_path());
+                intent.putExtra("moviebackdrop",list.get(position).getBackdrop_path());
+                intent.putExtra("description",list.get(position).getOverview());
+                startActivity(intent);
             }
         });
         recyclerView.setAdapter(adapter);

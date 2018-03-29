@@ -19,13 +19,19 @@ import java.util.List;
 
 public class topratedAdapter extends RecyclerView.Adapter<topratedAdapter.TopRatedHolder> {
 
-    Context context;
-    List<TopRated.ResultsBean> list;
-    public static final String IMAGE = "http://image.tmdb.org/t/p/w1280";
 
-    public topratedAdapter(Context context, List<TopRated.ResultsBean> list) {
+    Context context;
+    List<Nowplaying.ResultsBean> list;
+    public static final String IMAGE = "http://image.tmdb.org/t/p/w1280";
+    interface OnItemCickListener{
+        void OnitemClicktop(int position);
+    }
+    OnItemCickListener listener;
+
+    public topratedAdapter(Context context, List<Nowplaying.ResultsBean> list,OnItemCickListener listener) {
         this.context = context;
         this.list = list;
+        this.listener = listener;
     }
 
 
@@ -39,13 +45,19 @@ public class topratedAdapter extends RecyclerView.Adapter<topratedAdapter.TopRat
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TopRatedHolder holder, int position) {
-     TopRated.ResultsBean bean = list.get(position);
+    public void onBindViewHolder(@NonNull final TopRatedHolder holder, int position) {
+     Nowplaying.ResultsBean bean = list.get(position);
      String a = bean.getBackdrop_path();
         Picasso.get().load(IMAGE+a).fit().into(holder.imageView);
       holder.name.setText(bean.getTitle());
         String  b=  Float.toString((float) bean.getVote_average());
       holder.rating.setText(b);
+      holder.imageView.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              listener.OnitemClicktop(holder.getAdapterPosition());
+          }
+      });
     }
 
     @Override
