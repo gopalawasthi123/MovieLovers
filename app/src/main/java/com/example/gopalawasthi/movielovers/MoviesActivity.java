@@ -1,52 +1,22 @@
 package com.example.gopalawasthi.movielovers;
 
-import android.app.SearchManager;
-import android.arch.persistence.room.Room;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.LinearSnapHelper;
-import android.support.v7.widget.MenuItemHoverListener;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.SnapHelper;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MoviesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,MovieFragment.onMovieClickInterfacecallback {
 
@@ -102,6 +72,7 @@ public class MoviesActivity extends AppCompatActivity implements NavigationView.
 
         NavigationView navigationView = this.findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        setfragment(new MovieFragment());
 
 
 //        //TOdo connectivity manager for the internet check
@@ -477,9 +448,12 @@ public class MoviesActivity extends AppCompatActivity implements NavigationView.
         int id = item.getItemId();
 
         if(id == R.id.nav_camera) {
+
+            setfragment(new MovieFragment());
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
+            setfragment(new TvFragment());
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
@@ -493,6 +467,14 @@ public class MoviesActivity extends AppCompatActivity implements NavigationView.
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+
+    }
+
+
+    private void setfragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.moviecontainer,fragment).commit();
+
 
     }
 
@@ -510,11 +492,70 @@ public class MoviesActivity extends AppCompatActivity implements NavigationView.
         startActivity(intent);
     }
 
+    @Override
+    public void onpopularmovieClick(Nowplaying.ResultsBean popular) {
+        Intent intent = new Intent(this,MainActivity.class);
+        int a = popular.getId();
+        String b =  popular.getTitle();
+        intent.putExtra("movieid",a);
+        intent.putExtra("moviename",b);
+        intent.putExtra("movieposter",popular.getPoster_path());
+        intent.putExtra("moviebackdrop",popular.getBackdrop_path());
+        intent.putExtra("description",popular.getOverview());
+        startActivity(intent);
+
+    }
+
+    @Override
+    public void ontopratedmovieClick(Nowplaying.ResultsBean toprated) {
+        Intent intent = new Intent(this,MainActivity.class);
+        int a = toprated.getId();
+        String b =  toprated.getTitle();
+        intent.putExtra("movieid",a);
+        intent.putExtra("moviename",b);
+        intent.putExtra("movieposter",toprated.getPoster_path());
+        intent.putExtra("moviebackdrop",toprated.getBackdrop_path());
+        intent.putExtra("description",toprated
+                .getOverview());
+        startActivity(intent);
+
+
+    }
+
     public void showallnowplaying(View view) {
         Intent intent = new Intent(this,ShowallList.class);
         intent.addCategory("nowplaying");
         startActivity(intent);
 
     }
+
+    public void showallpopular(View view) {
+        Intent intent = new Intent(this,ShowallList.class);
+        intent.addCategory("popular");
+        startActivity(intent);
+    }
+
+    public void showalltoprated(View view) {
+        Intent intent = new Intent(this,ShowallList.class);
+        intent.addCategory("toprated");
+        startActivity(intent);
+    }
+
+
+    public void showallupcoming(View view) {
+        Intent intent = new Intent(this,ShowallList.class);
+        intent.addCategory("upcoming");
+        startActivity(intent);
+    }
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
 
 }

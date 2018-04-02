@@ -3,6 +3,7 @@ package com.example.gopalawasthi.movielovers;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -26,6 +27,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +40,7 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MovieFragment extends Fragment implements MoviesAdapter.onitemclicklistener {
+public class MovieFragment extends Fragment implements MoviesAdapter.onitemclicklistener, com.example.gopalawasthi.movielovers.popularmovieadapter.OnitemClicklistener, com.example.gopalawasthi.movielovers.topratedAdapter.OnItemCickListener {
 
 
     TextView viewallnowplaying;
@@ -70,8 +72,14 @@ public class MovieFragment extends Fragment implements MoviesAdapter.onitemclick
     Moviedatabase moviedatabase;
     MoviesDao dao;
     onMovieClickInterfacecallback interfacecallback;
+
+
+
     public interface onMovieClickInterfacecallback{
         void onmovieClick(Nowplaying.ResultsBean nowplaying);
+        void onpopularmovieClick(Nowplaying.ResultsBean popular);
+        void ontopratedmovieClick(Nowplaying.ResultsBean toprated);
+
     }
 
     public MovieFragment() {
@@ -118,13 +126,13 @@ public class MovieFragment extends Fragment implements MoviesAdapter.onitemclick
         createfornowplaying(view);
 
         //for popularmovies
-//        creaforpopularmovies();
+        creaforpopularmovies(view);
 
         //for top-ratedmovies
-//        createfortoprated();
+        createfortoprated(view);
 
         //for upcoming movies
-//        createforupcoming();
+        createforupcoming(view);
 
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -157,7 +165,7 @@ public class MovieFragment extends Fragment implements MoviesAdapter.onitemclick
         moviedatabase = Moviedatabase.getINSTANCE(getContext());
         dao = moviedatabase.getMovieDao();
         List<Nowplaying.ResultsBean> mydao = dao.getallmovies();
-        Log.d("movies",mydao.get(2).getTitle());
+//        Log.d("movies",mydao.get(2).getTitle());
 //        recyclerView.setVisibility(View.GONE);
 //        headernowplaying.setVisibility(View.GONE);
         adapter =  new MoviesAdapter(ListNow, getContext(),this );
@@ -206,10 +214,139 @@ public class MovieFragment extends Fragment implements MoviesAdapter.onitemclick
     }
 
 
+    private void creaforpopularmovies(View view) {
+    recyclerpopular = view.findViewById(R.id.secondrecycler);
+        popularList = new ArrayList<>();
+        recyclerpopular.setVisibility(View.GONE);
+        headerpopular.setVisibility(View.GONE);
 
+        fetchdataforpopular();
+
+        popularmovieadapter = new popularmovieadapter(getContext(),popularList,this);
+        recyclerpopular.setAdapter(popularmovieadapter);
+        recyclerpopular.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+        recyclerpopular.setOnFlingListener(null);
+       SnapHelper snapHelper = new LinearSnapHelper();
+       snapHelper.attachToRecyclerView(recyclerpopular);
+
+
+    }
+
+    private void fetchdataforpopular() {
+
+        Call<Nowplaying> popularMoviesCall = ApiClient.getINSTANCE().getMoviesInterface().getpopularMovies(POPULAR_CATEGORY,API_key,LANGUGAGE,PAGE);
+        popularMoviesCall.enqueue(new Callback<Nowplaying>() {
+            @Override
+            public void onResponse(Call<Nowplaying> call, Response<Nowplaying> response) {
+                if(response.isSuccessful()){
+                    Nowplaying popularMovies = response.body();
+                    popularList.clear();
+                    popularList.addAll(popularMovies.getResults());
+                    popularmovieadapter.notifyDataSetChanged();
+
+                    recyclerpopular.setVisibility(View.VISIBLE);
+                    headerpopular.setVisibility(View.VISIBLE);
+
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Nowplaying> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+
+    private void createfortoprated(View view) {
+        recyclertoprated = view.findViewById(R.id.thirdrecycler);
+        toprated = new ArrayList<>();
+        fetchdatafortoprated();
+        topratedAdapter = new topratedAdapter(getContext(),toprated,this);
+        recyclertoprated.setAdapter(topratedAdapter);
+        recyclertoprated.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+        recyclertoprated.setOnFlingListener(null);
+        SnapHelper snapHelper = new LinearSnapHelper();
+        snapHelper.attachToRecyclerView(recyclertoprated);
+
+    }
+
+    private void fetchdatafortoprated() {
+        Call<Nowplaying> topRatedCall = ApiClient.getINSTANCE().getMoviesInterface().gettopRatedMovies(TOPRATED_CATEGORY,API_key,LANGUGAGE,PAGE);
+        topRatedCall.enqueue(new Callback<Nowplaying>() {
+            @Override
+            public void onResponse(Call<Nowplaying> call, Response<Nowplaying> response) {
+                if(response.body()!=null){
+                    toprated.clear();
+                    toprated.addAll(response.body().getResults());
+
+                    topratedAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Nowplaying> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void createforupcoming(View view) {
+        recyclerupcoming = view.findViewById(R.id.upcomingrecycler);
+        upcominglist = new ArrayList<>();
+        fetchdataforupcoming();
+        myupcoming = new MoviesAdapter(upcominglist, getContext(), this);
+        recyclerupcoming.setAdapter(myupcoming);
+        recyclerupcoming.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+        recyclerupcoming.setOnFlingListener(null);
+        SnapHelper snapHelper = new LinearSnapHelper();
+        snapHelper.attachToRecyclerView(recyclerupcoming);
+    }
+
+    private void fetchdataforupcoming() {
+        Call<Nowplaying> topRatedCall = ApiClient.getINSTANCE().getMoviesInterface().gettopRatedMovies(UPCOMING_CATEGORY,API_key,LANGUGAGE,PAGE);
+        topRatedCall.enqueue(new Callback<Nowplaying>() {
+            @Override
+            public void onResponse(Call<Nowplaying> call, Response<Nowplaying> response) {
+                if(response.body()!=null){
+                    upcominglist.clear();
+                    upcominglist.addAll(response.body().getResults());
+
+                    myupcoming.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Nowplaying> call, Throwable t) {
+
+            }
+        });
+    }
+
+
+
+        // for the nowplaying category
     @Override
     public void onItemclick(int position) {
        Nowplaying.ResultsBean nowplayingresults = ListNow.get(position);
-       interfacecallback.onmovieClick(nowplayingresults);
+       interfacecallback.onpopularmovieClick(nowplayingresults);
     }
+
+    // for the popular category
+    @Override
+    public void OnitemClick(int position) {
+        Nowplaying.ResultsBean popularresults = popularList.get(position);
+        interfacecallback.onmovieClick(popularresults);
+
+    }
+    @Override
+    public void OnitemClicktop(int position) {
+        Nowplaying.ResultsBean topratedresults = toprated.get(position);
+        interfacecallback.ontopratedmovieClick(topratedresults);
+
+    }
+
 }
