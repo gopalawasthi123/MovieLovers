@@ -29,10 +29,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.example.gopalawasthi.movielovers.MoviesActivity.API_key;
-import static com.example.gopalawasthi.movielovers.MoviesActivity.CATEGORY;
-import static com.example.gopalawasthi.movielovers.MoviesActivity.LANGUGAGE;
-import static com.example.gopalawasthi.movielovers.MoviesActivity.PAGE;
+import static com.example.gopalawasthi.movielovers.MovieFragment.API_key;
+import static com.example.gopalawasthi.movielovers.MovieFragment.CATEGORY;
+import static com.example.gopalawasthi.movielovers.MovieFragment.LANGUGAGE;
+import static com.example.gopalawasthi.movielovers.MovieFragment.PAGE;
 import static com.example.gopalawasthi.movielovers.MoviesAdapter.IMAGE;
 
 public class MainActivity extends AppCompatActivity {

@@ -108,7 +108,9 @@ import java.util.List;
         private int id;
         @Ignore
         private boolean video;
+
         private double vote_average;
+
         private String title;
         @Ignore
         private double popularity;

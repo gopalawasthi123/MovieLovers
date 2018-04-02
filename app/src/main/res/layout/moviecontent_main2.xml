@@ -1,182 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#424242"
-    android:orientation="vertical"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.gopalawasthi.movielovers.MoviesActivity"
-    tools:showIn="@layout/app_bar_main2">
-
-
-    <com.example.gopalawasthi.movielovers.CustomSwipetoRefresh android:id="@+id/swiperefreshlayout"
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TableLayout
+        android:id="@+id/moviecontainer"
+        android:background="#424242"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="com.example.gopalawasthi.movielovers.MoviesActivity"
+        tools:showIn="@layout/app_bar_main2">
+        <fragment
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:stretchColumns="1">
+           android:name="com.example.gopalawasthi.movielovers.MovieFragment"
+            android:id="@+id/moviefragment"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <LinearLayout
-                    android:id="@+id/nowplayingheader"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Now Playing"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="22sp"
-                        android:layout_marginLeft="4dp"
-                        android:fontFamily="cursive"
-                        android:textStyle="bold"/>
-
-                    <TextView
-                        android:id="@+id/showallnowplaying"
-                        android:paddingRight="5dp"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:textColor="@color/colorWhite"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="cursive"
-                        android:gravity="right"
-                        android:textStyle="bold"
-                        android:layout_marginRight="6dp"
-                        android:textSize="20sp"
-                        android:onClick="showallnowplaying"
-                        android:text="Show all"/>
-
-                </LinearLayout>
-
-
-                  <android.support.v7.widget.RecyclerView
-                      android:id="@+id/recyclerview"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content" />
-
-
-                <LinearLayout
-                    android:id="@+id/popularheader"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="4dp"
-                        android:textSize="22sp"
-                        android:fontFamily="cursive"
-                        android:textColor="@color/colorWhite"
-                        android:textStyle="bold"
-                        android:text="Popular "/>
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/colorWhite"
-                        android:layout_marginRight="4dp"
-                        android:paddingRight="5dp"
-                        android:onClick="showallpopular"
-                        android:fontFamily="cursive"
-                        android:textStyle="bold"
-                        android:layout_weight="1"
-                        android:text="Show all"
-                        android:textSize="20sp"
-                        android:gravity="right"/>
-                </LinearLayout>
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/secondrecycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
-
-                <LinearLayout
-                    android:id="@+id/topratedheader"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="4dp"
-                        android:textSize="22sp"
-                        android:fontFamily="cursive"
-                        android:textColor="@color/colorWhite"
-                        android:textStyle="bold"
-                        android:text="Top Rated"/>
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/colorWhite"
-                        android:layout_marginRight="4dp"
-                        android:onClick="showalltoprated"
-                        android:fontFamily="cursive"
-                        android:textStyle="bold"
-                        android:paddingRight="5dp"
-                        android:layout_weight="1"
-                        android:text="Show all"
-                        android:textSize="20sp"
-                        android:gravity="right"/>
-                </LinearLayout>
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/thirdrecycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
-
-
-                <LinearLayout
-                    android:id="@+id/upcomingheader"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="4dp"
-                        android:textSize="22sp"
-                        android:fontFamily="cursive"
-                        android:textColor="@color/colorWhite"
-                        android:textStyle="bold"
-                        android:text="Upcoming"/>
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/colorWhite"
-                        android:layout_marginRight="4dp"
-                        android:onClick="showallupcoming"
-                        android:fontFamily="cursive"
-                        android:textStyle="bold"
-                        android:paddingRight="5dp"
-                        android:layout_weight="1"
-                        android:text="Show all"
-                        android:textSize="20sp"
-                        android:gravity="right"/>
-                </LinearLayout>
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/upcomingrecycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
-
-            </LinearLayout>
-
-
-        </TableLayout>
-
-    </android.support.v4.widget.NestedScrollView>
-</com.example.gopalawasthi.movielovers.CustomSwipetoRefresh>
-
-</android.support.design.widget.CoordinatorLayout>
+    </FrameLayout>
 
 

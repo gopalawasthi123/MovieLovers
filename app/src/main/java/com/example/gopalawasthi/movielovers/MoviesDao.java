@@ -21,5 +21,4 @@ public interface MoviesDao {
    @Query("SELECT * FROM beansList")
     List<Nowplaying.ResultsBean> getallmovies();
 
-
     }

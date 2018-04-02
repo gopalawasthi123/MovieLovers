@@ -23,7 +23,7 @@ public class popularmovieadapter extends RecyclerView.Adapter<popularmovieadapte
 
     Context context;
     List<Nowplaying.ResultsBean> beans;
-    public static final String IMAGE ="http://image.tmdb.org/t/p/w1280";
+    public static final String IMAGE ="http://image.tmdb.org/t/p/w780";
     interface  OnitemClicklistener{
         void OnitemClick(int position);
     }

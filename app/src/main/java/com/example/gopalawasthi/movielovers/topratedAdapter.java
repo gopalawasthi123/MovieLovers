@@ -22,7 +22,7 @@ public class topratedAdapter extends RecyclerView.Adapter<topratedAdapter.TopRat
 
     Context context;
     List<Nowplaying.ResultsBean> list;
-    public static final String IMAGE = "http://image.tmdb.org/t/p/w1280";
+    public static final String IMAGE = "http://image.tmdb.org/t/p/w780";
     interface OnItemCickListener{
         void OnitemClicktop(int position);
     }
