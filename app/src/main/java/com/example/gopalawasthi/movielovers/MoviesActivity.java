@@ -522,6 +522,20 @@ public class MoviesActivity extends AppCompatActivity implements NavigationView.
 
     }
 
+    @Override
+    public void onupcomingmovieclick(Nowplaying.ResultsBean upcoming) {
+        Intent intent = new Intent(this,MainActivity.class);
+
+        int a =  upcoming.getId();
+        String b =  upcoming.getTitle();
+        intent.putExtra("movieid",a);
+        intent.putExtra("moviename",b);
+        intent.putExtra("movieposter",upcoming.getPoster_path());
+        intent.putExtra("moviebackdrop",upcoming.getBackdrop_path());
+        intent.putExtra("description",upcoming.getOverview());
+        startActivity(intent);
+    }
+
     public void showallnowplaying(View view) {
         Intent intent = new Intent(this,ShowallList.class);
         intent.addCategory("nowplaying");

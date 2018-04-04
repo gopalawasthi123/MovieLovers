@@ -28,7 +28,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolde
 
     List<Nowplaying.ResultsBean> resultBeans;
     Context context;
-    onitemclicklistener listener;
+   private onitemclicklistener listener;
+
+
+
     interface onitemclicklistener{
         void onItemclick(int position);
     }

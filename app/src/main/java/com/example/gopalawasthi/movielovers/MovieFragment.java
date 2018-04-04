@@ -40,7 +40,7 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MovieFragment extends Fragment implements MoviesAdapter.onitemclicklistener, com.example.gopalawasthi.movielovers.popularmovieadapter.OnitemClicklistener, com.example.gopalawasthi.movielovers.topratedAdapter.OnItemCickListener {
+public class MovieFragment extends Fragment implements com.example.gopalawasthi.movielovers.popularmovieadapter.OnitemClicklistener, com.example.gopalawasthi.movielovers.topratedAdapter.OnItemCickListener {
 
 
     TextView viewallnowplaying;
@@ -68,7 +68,8 @@ public class MovieFragment extends Fragment implements MoviesAdapter.onitemclick
     RecyclerView recyclertoprated;
     RecyclerView recyclerupcoming;
     List<Nowplaying.ResultsBean> upcominglist;
-    MoviesAdapter myupcoming;
+    upcomingAdapter upcomingAdapter;
+
     Moviedatabase moviedatabase;
     MoviesDao dao;
     onMovieClickInterfacecallback interfacecallback;
@@ -79,7 +80,7 @@ public class MovieFragment extends Fragment implements MoviesAdapter.onitemclick
         void onmovieClick(Nowplaying.ResultsBean nowplaying);
         void onpopularmovieClick(Nowplaying.ResultsBean popular);
         void ontopratedmovieClick(Nowplaying.ResultsBean toprated);
-
+        void onupcomingmovieclick(Nowplaying.ResultsBean upcoming);
     }
 
     public MovieFragment() {
@@ -135,14 +136,15 @@ public class MovieFragment extends Fragment implements MoviesAdapter.onitemclick
         createforupcoming(view);
 
 
+
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
 
                 createfornowplaying(view);
-//                creaforpopularmovies();
-//                createfortoprated();
-//                createforupcoming();
+                creaforpopularmovies(view);
+                createfortoprated(view);
+                createforupcoming(view);
 
             }
         });
@@ -168,7 +170,13 @@ public class MovieFragment extends Fragment implements MoviesAdapter.onitemclick
 //        Log.d("movies",mydao.get(2).getTitle());
 //        recyclerView.setVisibility(View.GONE);
 //        headernowplaying.setVisibility(View.GONE);
-        adapter =  new MoviesAdapter(ListNow, getContext(),this );
+        adapter =  new MoviesAdapter(ListNow, getContext(), new MoviesAdapter.onitemclicklistener() {
+            @Override
+            public void onItemclick(int position) {
+                Nowplaying.ResultsBean nowplayingresults = ListNow.get(position);
+                interfacecallback.onmovieClick(nowplayingresults);
+            }
+        });
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL,false));
 //        recyclerView.setItemAnimator( new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
@@ -298,8 +306,17 @@ public class MovieFragment extends Fragment implements MoviesAdapter.onitemclick
         recyclerupcoming = view.findViewById(R.id.upcomingrecycler);
         upcominglist = new ArrayList<>();
         fetchdataforupcoming();
-        myupcoming = new MoviesAdapter(upcominglist, getContext(), this);
-        recyclerupcoming.setAdapter(myupcoming);
+        upcomingAdapter = new upcomingAdapter(getContext(), upcominglist, new upcomingAdapter.OnItemCickListener() {
+            @Override
+            public void OnitemClickupcoming(int position) {
+                Nowplaying.ResultsBean upcomingresults = upcominglist.get(position);
+                interfacecallback.onupcomingmovieclick(upcomingresults);
+
+            }
+        });
+
+
+        recyclerupcoming.setAdapter(upcomingAdapter);
         recyclerupcoming.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
         recyclerupcoming.setOnFlingListener(null);
         SnapHelper snapHelper = new LinearSnapHelper();
@@ -315,7 +332,7 @@ public class MovieFragment extends Fragment implements MoviesAdapter.onitemclick
                     upcominglist.clear();
                     upcominglist.addAll(response.body().getResults());
 
-                    myupcoming.notifyDataSetChanged();
+                    upcomingAdapter.notifyDataSetChanged();
                 }
             }
 
@@ -329,24 +346,21 @@ public class MovieFragment extends Fragment implements MoviesAdapter.onitemclick
 
 
         // for the nowplaying category
-    @Override
-    public void onItemclick(int position) {
-       Nowplaying.ResultsBean nowplayingresults = ListNow.get(position);
-       interfacecallback.onpopularmovieClick(nowplayingresults);
-    }
-
     // for the popular category
     @Override
     public void OnitemClick(int position) {
         Nowplaying.ResultsBean popularresults = popularList.get(position);
-        interfacecallback.onmovieClick(popularresults);
+        interfacecallback.onpopularmovieClick(popularresults);
 
     }
+    // for the toprated category
     @Override
     public void OnitemClicktop(int position) {
         Nowplaying.ResultsBean topratedresults = toprated.get(position);
         interfacecallback.ontopratedmovieClick(topratedresults);
 
     }
+    // for the upcoming categrory
+
 
 }
