@@ -44,5 +44,10 @@ public interface MoviesInterface {
                             @Query("language") String en,
                             @Query("page") int numpage);
 
+    @GET("3/movie/{movie_id}/videos")
+    Call<TrailersClass> getmovietrailers(@Path("movie_id") int id,
+                                   @Query("api_key") String key,
+                                    @Query("language") String en);
+
 
 }

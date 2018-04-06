@@ -14,22 +14,25 @@ public class VideoPlayerActivity extends YouTubeBaseActivity implements YouTubeP
 
     private static final int RECOVERY_REQUEST = 1;
     private YouTubePlayerView youTubeView;
-
+    String video= "";
     public static final String YOUTUBE_API_KEY = "hw_HpTI_Wkw";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_player);
+        Intent intent = getIntent();
+         video = intent.getStringExtra("video_id");
+
 
         youTubeView = (YouTubePlayerView) findViewById(R.id.youtube_view);
-        youTubeView.initialize(YOUTUBE_API_KEY, this);
+        youTubeView.initialize(video, this);
     }
 
     @Override
     public void onInitializationSuccess(Provider provider, YouTubePlayer player, boolean wasRestored) {
         if (!wasRestored) {
-            player.cueVideo("c25GKl5VNeY"); // Plays https://www.youtube.com/watch?v=fhWaJi1Hsfo
+            player.cueVideo(video); // Plays https://www.youtube.com/watch?v=fhWaJi1Hsfo
         }
     }
 

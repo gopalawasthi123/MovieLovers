@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +36,7 @@ import static com.example.gopalawasthi.movielovers.MovieFragment.LANGUGAGE;
 import static com.example.gopalawasthi.movielovers.MovieFragment.PAGE;
 import static com.example.gopalawasthi.movielovers.MoviesAdapter.IMAGE;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements com.example.gopalawasthi.movielovers.trailerAdapter.ontrailerclickListener {
         CollapsingToolbarLayout layout;
 //    CustomSwipetoRefresh swipeRefreshLayout ;
     RecyclerView recyclerView;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     int b;
     List<TrailersClass.ResultsBean> trailerslist;
     RecyclerView trailerrecycler;
+    trailerAdapter trailerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +80,33 @@ public class MainActivity extends AppCompatActivity {
 
     private void createformovietrailers() {
         trailerslist = new ArrayList<>();
+        trailerrecycler = findViewById(R.id.recycleryoutube);
+        fetchdatafromyoutube();
+        trailerAdapter = new trailerAdapter(trailerslist,this,this);
+        trailerrecycler.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        trailerrecycler.setAdapter(trailerAdapter);
+        trailerrecycler.setOnFlingListener(null);
+    }
 
+    private void fetchdatafromyoutube() {
+        Call<TrailersClass> tvClassCall = ApiClient.getINSTANCE().getMoviesInterface().getmovietrailers(b,API_key,LANGUGAGE);
+        tvClassCall.enqueue(new Callback<TrailersClass>() {
+            @Override
+            public void onResponse(Call<TrailersClass> call, Response<TrailersClass> response) {
+                if(response.body()!=null) {
+                  TrailersClass trailersClass = response.body();
+                  trailerslist.clear();
+                  trailerslist.addAll(trailersClass.getResults());
+                    trailerAdapter.notifyDataSetChanged();
 
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TrailersClass> call, Throwable t) {
+
+            }
+        });
     }
 
 
@@ -92,7 +119,6 @@ public class MainActivity extends AppCompatActivity {
 //              movieDao=  movieDatabase.getMovieDao();
 //              List<Nowplaying.ResultsBean> list =movieDao.getnowplaing();
 
-
         fetchdatafromnetwork();
         adapter =  new DescriptionAdapter(List,this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false));
@@ -100,16 +126,12 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.setOnFlingListener(null);
 
-
         adapter.notifyDataSetChanged();
 //        swipeRefreshLayout.setRefreshing(false);
 
 //        List.clear();
 //        List.addAll(list);
 //        adapter.notifyDataSetChanged();
-
-
-
     }
 
     private void fetchdatafromnetwork() {
@@ -156,5 +178,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void ontrailerClick(int position) {
+        Intent intent = new Intent(this,VideoPlayerActivity.class);
+        TrailersClass.ResultsBean bean = trailerslist.get(position);
+        intent.putExtra("video_id",bean.getKey());
+        startActivity(intent);
     }
 }
