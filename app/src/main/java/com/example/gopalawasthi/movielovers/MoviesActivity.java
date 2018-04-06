@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
-public class MoviesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,MovieFragment.onMovieClickInterfacecallback {
+public class MoviesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,MovieFragment.onMovieClickInterfacecallback,TvFragment.onTvclick {
 
 //    TextView viewallnowplaying;
 //    SearchView searchView;
@@ -572,4 +572,29 @@ public class MoviesActivity extends AppCompatActivity implements NavigationView.
     }
 
 
+    @Override
+    public void ontopratedmovieClick(TvClass.ResultsBean resultsBean) {
+        Intent intent = new Intent(MoviesActivity.this,MainActivity.class);
+        int a =  resultsBean.getId();
+        String b =  resultsBean.getName();
+        intent.putExtra("movieid",a);
+        intent.putExtra("moviename",b);
+        intent.putExtra("movieposter",resultsBean.getPoster_path());
+        intent.putExtra("moviebackdrop",resultsBean.getBackdrop_path());
+        intent.putExtra("description",resultsBean.getOverview());
+        startActivity(intent);
+    }
+
+    @Override
+    public void onpopularmovieClick(TvClass.ResultsBean resultsBean) {
+        Intent intent = new Intent(MoviesActivity.this,MainActivity.class);
+        int a =  resultsBean.getId();
+        String b =  resultsBean.getName();
+        intent.putExtra("movieid",a);
+        intent.putExtra("moviename",b);
+        intent.putExtra("movieposter",resultsBean.getPoster_path());
+        intent.putExtra("moviebackdrop",resultsBean.getBackdrop_path());
+        intent.putExtra("description",resultsBean.getOverview());
+        startActivity(intent);
+    }
 }

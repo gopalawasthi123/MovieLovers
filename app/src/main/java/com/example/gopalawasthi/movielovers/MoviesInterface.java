@@ -33,5 +33,16 @@ public interface MoviesInterface {
     Call<MovieCredits> getcastMovies (@Path("movie_id") int id,
                                     @Query("api_key") String key);
 
+    @GET("3/tv/{category}")
+     Call<TvClass> getvshows(@Path("category") String category,
+                            @Query("api_key") String key,
+                            @Query("language") String en,
+                            @Query("page") int numpage);
+    @GET("3/tv/{category}")
+    Call<TvClass> gettvpopular(@Path("category") String category,
+                            @Query("api_key") String key,
+                            @Query("language") String en,
+                            @Query("page") int numpage);
+
 
 }

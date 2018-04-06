@@ -68,8 +68,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolde
             listener.onItemclick(holder.getAdapterPosition());
             }
 
-
-
         });
         Picasso.get()
                 .load(IMAGE+bean.getBackdrop_path())

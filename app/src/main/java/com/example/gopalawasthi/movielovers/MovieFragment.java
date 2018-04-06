@@ -87,6 +87,7 @@ public class MovieFragment extends Fragment implements com.example.gopalawasthi.
         // Required empty public constructor
     }
 
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

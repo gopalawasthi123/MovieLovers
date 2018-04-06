@@ -46,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
     ImageView backdrop;
     TextView description;
     int b;
+    List<TrailersClass.ResultsBean> trailerslist;
+    RecyclerView trailerrecycler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,9 +73,14 @@ public class MainActivity extends AppCompatActivity {
         layout.setExpandedTitleMarginStart(15);
         layout.setTitle(a);
         createfornowplaying();
+        createformovietrailers();
     }
 
+    private void createformovietrailers() {
+        trailerslist = new ArrayList<>();
 
+
+    }
 
 
     private void createfornowplaying() {

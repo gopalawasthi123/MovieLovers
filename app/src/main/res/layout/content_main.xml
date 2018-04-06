@@ -57,8 +57,22 @@
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/recyclermoviecast"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+                        android:layout_height="wrap_content">
+                    </android.support.v7.widget.RecyclerView>
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorWhite"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:text="Trailers"/>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycleryoutube"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent">
+                    </android.support.v7.widget.RecyclerView>
 
                 </LinearLayout>
 
