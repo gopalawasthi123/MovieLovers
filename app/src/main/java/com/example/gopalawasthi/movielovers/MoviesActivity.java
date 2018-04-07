@@ -577,6 +577,7 @@ public class MoviesActivity extends AppCompatActivity implements NavigationView.
         Intent intent = new Intent(MoviesActivity.this,MainActivity.class);
         int a =  resultsBean.getId();
         String b =  resultsBean.getName();
+        intent.addCategory("TV");
         intent.putExtra("movieid",a);
         intent.putExtra("moviename",b);
         intent.putExtra("movieposter",resultsBean.getPoster_path());
@@ -590,6 +591,7 @@ public class MoviesActivity extends AppCompatActivity implements NavigationView.
         Intent intent = new Intent(MoviesActivity.this,MainActivity.class);
         int a =  resultsBean.getId();
         String b =  resultsBean.getName();
+        intent.addCategory("TV");
         intent.putExtra("movieid",a);
         intent.putExtra("moviename",b);
         intent.putExtra("movieposter",resultsBean.getPoster_path());

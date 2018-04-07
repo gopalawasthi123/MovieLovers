@@ -49,5 +49,11 @@ public interface MoviesInterface {
                                    @Query("api_key") String key,
                                     @Query("language") String en);
 
+    @GET("3/tv/{tv_id}/videos")
+        Call<TrailersClass> gettvtrailers (@Path("tv_id") int id,
+                                            @Query("api_key") String key,
+                                              @Query("language") String en);
+
+
 
 }

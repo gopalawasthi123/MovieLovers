@@ -64,18 +64,57 @@ public class MainActivity extends AppCompatActivity implements com.example.gopal
 //        swipeRefreshLayout = findViewById(R.id.descriptionswipe);
         Intent intent = getIntent();
         String a = intent.getStringExtra("moviename");
-         b = intent.getIntExtra("movieid",-1);
+        b = intent.getIntExtra("movieid", -1);
         String c = intent.getStringExtra("movieposter");
-        String d =  intent.getStringExtra("moviebackdrop");
-        String desc =intent.getStringExtra("description");
-        Picasso.get().load(IMAGE+c).into(this.poster);
-        Picasso.get().load(IMAGE+d).fit().into(this.backdrop);
+        String d = intent.getStringExtra("moviebackdrop");
+        String desc = intent.getStringExtra("description");
+        Picasso.get().load(IMAGE + c).into(this.poster);
+        Picasso.get().load(IMAGE + d).fit().into(this.backdrop);
         description.setText(desc);
-        layout.setExpandedTitleGravity(Gravity.RIGHT|Gravity.BOTTOM);
+        layout.setExpandedTitleGravity(Gravity.RIGHT | Gravity.BOTTOM);
         layout.setExpandedTitleMarginStart(15);
         layout.setTitle(a);
+        if (intent.hasCategory("TV")) {
+
+            createforTVtrailers();
+        } else {
+            createformovietrailers();
+        }
         createfornowplaying();
-        createformovietrailers();
+    }
+
+
+
+
+    private void createforTVtrailers(){
+        trailerslist = new ArrayList<>();
+        trailerrecycler = findViewById(R.id.recycleryoutube);
+        fetchdatafromTVyoutube();
+        trailerAdapter = new trailerAdapter(trailerslist,this,this);
+        trailerrecycler.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        trailerrecycler.setAdapter(trailerAdapter);
+        trailerrecycler.setOnFlingListener(null);
+    }
+
+    private void fetchdatafromTVyoutube() {
+        Call<TrailersClass> tvClassCall = ApiClient.getINSTANCE().getMoviesInterface().gettvtrailers(b,API_key,LANGUGAGE);
+        tvClassCall.enqueue(new Callback<TrailersClass>() {
+            @Override
+            public void onResponse(Call<TrailersClass> call, Response<TrailersClass> response) {
+                if(response.body()!=null) {
+                    TrailersClass trailersClass = response.body();
+                    trailerslist.clear();
+                    trailerslist.addAll(trailersClass.getResults());
+                    trailerAdapter.notifyDataSetChanged();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TrailersClass> call, Throwable t) {
+
+            }
+        });
     }
 
     private void createformovietrailers() {

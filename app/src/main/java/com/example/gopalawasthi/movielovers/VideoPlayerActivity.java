@@ -25,14 +25,16 @@ public class VideoPlayerActivity extends YouTubeBaseActivity implements YouTubeP
          video = intent.getStringExtra("video_id");
 
 
-        youTubeView = (YouTubePlayerView) findViewById(R.id.youtube_view);
+        youTubeView = findViewById(R.id.youtube_view);
         youTubeView.initialize(video, this);
+
     }
 
     @Override
     public void onInitializationSuccess(Provider provider, YouTubePlayer player, boolean wasRestored) {
         if (!wasRestored) {
             player.cueVideo(video); // Plays https://www.youtube.com/watch?v=fhWaJi1Hsfo
+
         }
     }
 

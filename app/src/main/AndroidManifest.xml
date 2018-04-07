@@ -28,8 +28,8 @@
 
         </activity>
         <activity android:name=".ShowallList" />
-        <activity android:name=".VideoPlayerActivity">
-
+        <activity android:name=".VideoPlayerActivity"
+            android:configChanges="orientation|keyboardHidden">
 
         </activity>
     </application>

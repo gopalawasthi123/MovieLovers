@@ -3,6 +3,7 @@ package com.example.gopalawasthi.movielovers;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ public class trailerAdapter extends RecyclerView.Adapter<trailerAdapter.TrailerH
     List<TrailersClass.ResultsBean> list;
     Context context;
     ontrailerclickListener listener;
+    public static final String YOUTUBE_THUMBNAIL ="https://img.youtube.com/vi/";
     interface ontrailerclickListener{
         void ontrailerClick(int position);
     }
@@ -45,6 +47,8 @@ public class trailerAdapter extends RecyclerView.Adapter<trailerAdapter.TrailerH
     public void onBindViewHolder(@NonNull final TrailerHolder holder, final int position) {
         TrailersClass.ResultsBean resultsBean =  list.get(position);
         holder.name.setText(resultsBean.getName());
+        Picasso.get().load(YOUTUBE_THUMBNAIL+ resultsBean.getKey()+"/0.jpg").fit().into(holder.imageView);
+        Log.d("image",YOUTUBE_THUMBNAIL+ resultsBean.getKey()+"/0.jpg");
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
