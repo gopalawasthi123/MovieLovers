@@ -54,6 +54,13 @@ public interface MoviesInterface {
                                             @Query("api_key") String key,
                                               @Query("language") String en);
 
+    @GET("3/search/multi")
+    Call<SearchClass> getsearchall (@Query("api_key") String key,
+                                    @Query("language") String en,
+                                    @Query("query") String query,
+                                    @Query("page") int page,
+                                    @Query("include_adult") boolean a);
+
 
 
 }

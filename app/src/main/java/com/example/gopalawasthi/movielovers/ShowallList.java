@@ -136,4 +136,7 @@ public class ShowallList extends AppCompatActivity {
         pagecount =pagecount+1;
         fetchdatafromnetwork(a);
     }
+
+    public void LoadMoreSearch(View view) {
+    }
 }

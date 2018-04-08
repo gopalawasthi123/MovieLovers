@@ -1,5 +1,6 @@
 package com.example.gopalawasthi.movielovers;
 
+import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,16 +8,32 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.telecom.Call;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 
+import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static android.provider.MediaStore.Video.VideoColumns.LANGUAGE;
+import static com.example.gopalawasthi.movielovers.MovieFragment.API_key;
+import static com.example.gopalawasthi.movielovers.MovieFragment.LANGUGAGE;
+import static com.example.gopalawasthi.movielovers.MovieFragment.PAGE;
 
 public class MoviesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,MovieFragment.onMovieClickInterfacecallback,TvFragment.onTvclick {
 
@@ -49,6 +66,7 @@ public class MoviesActivity extends AppCompatActivity implements NavigationView.
 //    Moviedatabase moviedatabase;
 //    MoviesDao dao;
 //
+    SearchView searchView;
 
 //    GridLayoutManager gridLayoutManager;
 
@@ -320,7 +338,7 @@ public class MoviesActivity extends AppCompatActivity implements NavigationView.
 //
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
+//         Inflate the menu; this adds items to the action bar if it is present.
 //        getMenuInflater().inflate(R.menu.main2, menu);
 //        searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_settings));
 //        SearchManager searchManager =(SearchManager) getSystemService(SEARCH_SERVICE);
@@ -441,6 +459,8 @@ public class MoviesActivity extends AppCompatActivity implements NavigationView.
 //        startActivity(intent);
 //
 //
+
+
    }
 
     @Override
@@ -598,5 +618,28 @@ public class MoviesActivity extends AppCompatActivity implements NavigationView.
         intent.putExtra("moviebackdrop",resultsBean.getBackdrop_path());
         intent.putExtra("description",resultsBean.getOverview());
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main2,menu);
+        final SearchView searchView =(SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_settings));
+        SearchManager searchManager =(SearchManager) getSystemService(SEARCH_SERVICE);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+               Intent intent = new Intent(MoviesActivity.this,SearchActvity.class);
+               intent.putExtra("query",query);
+               startActivity(intent);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+              return false;
+            }
+        });
+        return true;
     }
 }
