@@ -1,7 +1,10 @@
 package com.example.gopalawasthi.movielovers;
 
+import android.app.Dialog;
 import android.app.SearchManager;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -21,6 +24,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 
@@ -34,6 +42,7 @@ import static android.provider.MediaStore.Video.VideoColumns.LANGUAGE;
 import static com.example.gopalawasthi.movielovers.MovieFragment.API_key;
 import static com.example.gopalawasthi.movielovers.MovieFragment.LANGUGAGE;
 import static com.example.gopalawasthi.movielovers.MovieFragment.PAGE;
+import static java.util.Collections.addAll;
 
 public class MoviesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,MovieFragment.onMovieClickInterfacecallback,TvFragment.onTvclick {
 
@@ -65,9 +74,13 @@ public class MoviesActivity extends AppCompatActivity implements NavigationView.
 //    MoviesAdapter myupcoming;
 //    Moviedatabase moviedatabase;
 //    MoviesDao dao;
-//
-    SearchView searchView;
 
+//
+ListView listView;
+    SearchView searchView;
+    Dialog dialog;
+    ArrayList<String> arrayList;
+    List<SearchClass.ResultsBean> searchClassList;
 //    GridLayoutManager gridLayoutManager;
 
     @Override
@@ -91,7 +104,7 @@ public class MoviesActivity extends AppCompatActivity implements NavigationView.
         NavigationView navigationView = this.findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         setfragment(new MovieFragment());
-
+        searchClassList = new ArrayList<>();
 
 //        //TOdo connectivity manager for the internet check
 //
@@ -635,11 +648,47 @@ public class MoviesActivity extends AppCompatActivity implements NavigationView.
                 return true;
             }
 
+
             @Override
-            public boolean onQueryTextChange(String newText) {
-              return false;
+            public boolean onQueryTextChange(final String newText) {
+                searchClassList = new ArrayList<>();
+
+                if( newText.length() >= 3 ){
+                     listView = findViewById(R.id.listview);
+                        listView.setVisibility(View.VISIBLE);
+                    final retrofit2.Call<SearchClass> searchClassCall = ApiClient.getINSTANCE().getMoviesInterface().getsearchall(API_key,LANGUGAGE,newText,PAGE,false);
+                    searchClassCall.enqueue(new Callback<SearchClass>() {
+                        @Override
+                        public void onResponse(retrofit2.Call<SearchClass> call, Response<SearchClass> response) {
+                            if(response.isSuccessful()){
+
+
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(retrofit2.Call<SearchClass> call, Throwable t) {
+
+                        }
+                    });
+                }else{
+
+                }
+             return true;
             }
         });
         return true;
     }
-}
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId()==R.id.action_settings){
+
+        }
+    return  true;
+    }
+
+
+    }
+

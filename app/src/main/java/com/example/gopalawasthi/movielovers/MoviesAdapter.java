@@ -59,8 +59,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolde
     public void onBindViewHolder(@NonNull final MovieHolder holder, final int position) {
         Nowplaying.ResultsBean bean = resultBeans.get(position);
         holder.name.setText(bean.getTitle());
-       String  a=  Integer.toString((int) bean.getVote_average());
-//        holder.rating.setText(a);
+       String  a=  Float.toString((float) bean.getVote_average());
+        holder.rating.setText(a);
 //        String b =bean.getBackdrop_path();
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override

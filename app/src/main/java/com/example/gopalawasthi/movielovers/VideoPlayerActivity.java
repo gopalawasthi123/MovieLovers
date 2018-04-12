@@ -32,8 +32,12 @@ public class VideoPlayerActivity extends YouTubeBaseActivity implements YouTubeP
 
     @Override
     public void onInitializationSuccess(Provider provider, YouTubePlayer player, boolean wasRestored) {
+        player.setFullscreenControlFlags(YouTubePlayer.FULLSCREEN_FLAG_CUSTOM_LAYOUT);
+        player.setFullscreen(true);
+
         if (!wasRestored) {
             player.cueVideo(video); // Plays https://www.youtube.com/watch?v=fhWaJi1Hsfo
+            player.setFullscreenControlFlags(YouTubePlayer.FULLSCREEN_FLAG_CONTROL_ORIENTATION|YouTubePlayer.FULLSCREEN_FLAG_CONTROL_SYSTEM_UI);
 
         }
     }

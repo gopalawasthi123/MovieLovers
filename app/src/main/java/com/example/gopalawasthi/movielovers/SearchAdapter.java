@@ -22,29 +22,41 @@ import static com.example.gopalawasthi.movielovers.MoviesAdapter.IMAGE;
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHolder> {
    List<SearchClass.ResultsBean> resultsBeans;
    Context context;
+   searchmovielistener listener;
+    interface  searchmovielistener{
+        void onmovieclick(int position);
+    }
 
-    public SearchAdapter(List<SearchClass.ResultsBean> resultsBeans, Context context) {
+    public SearchAdapter(List<SearchClass.ResultsBean> resultsBeans, Context context,searchmovielistener listener ) {
         this.resultsBeans = resultsBeans;
         this.context = context;
+        this.listener = listener;
     }
 
     @NonNull
     @Override
     public SearchHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater =(LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-         View v = layoutInflater.inflate(R.layout.custom_nowplayingview,parent,false);
+         View v = layoutInflater.inflate(R.layout.custom_search,parent,false);
          SearchHolder holder = new SearchHolder(v);
          return  holder;
 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SearchHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final SearchHolder holder, int position) {
         SearchClass.ResultsBean searchClass = resultsBeans.get(position);
-        String name = searchClass.getTitle();
+        String name = searchClass.getOriginal_title();
         holder.name.setText(name);
         String a = searchClass.getBackdrop_path();
         Picasso.get().load(IMAGE+a).fit().into(holder.imageView);
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onmovieclick(holder.getAdapterPosition());
+            }
+        });
+        holder.description.setText(searchClass.getOverview());
 
     }
 
@@ -57,12 +69,14 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
        View itemView;
        ImageView imageView;
        TextView name;
+       TextView description;
 
         public SearchHolder(View itemView) {
             super(itemView);
             this.itemView = itemView;
-            imageView = itemView.findViewById(R.id.imagenowplaying);
-            name = itemView.findViewById(R.id.nowshowingtitle);
+            imageView = itemView.findViewById(R.id.searchimage);
+            name = itemView.findViewById(R.id.searchtitle);
+            description = itemView.findViewById(R.id.searchdescription);
 
         }
 

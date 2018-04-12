@@ -25,7 +25,7 @@
         <activity android:name=".ShowallList" />
         <activity
             android:name=".VideoPlayerActivity"
-            android:configChanges="orientation|keyboardHidden" />
+            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity android:name=".SearchActvity" />
         <activity android:name=".HomeActivity">
             <intent-filter>
