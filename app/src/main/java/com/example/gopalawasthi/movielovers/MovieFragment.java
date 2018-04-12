@@ -25,6 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -167,6 +168,7 @@ public class MovieFragment extends Fragment implements com.example.gopalawasthi.
 
         moviedatabase = Moviedatabase.getINSTANCE(getContext());
         dao = moviedatabase.getMovieDao();
+        String type = "now_playing";
         List<Nowplaying.ResultsBean> mydao = dao.getallmovies();
 //        Log.d("movies",mydao.get(2).getTitle());
 //        recyclerView.setVisibility(View.GONE);
@@ -207,8 +209,11 @@ public class MovieFragment extends Fragment implements com.example.gopalawasthi.
             public void onResponse(Call<Nowplaying> call, Response<Nowplaying> response) {
                 if (response.isSuccessful()) {
                     Nowplaying root = response.body();
+                    Nowplaying.ResultsBean bean = new Nowplaying.ResultsBean();
                     ListNow.clear();
+
                     ListNow.addAll(root.getResults());
+
                     adapter.notifyDataSetChanged();
                     dao.oninsertMovies(ListNow);
                     recyclerView.setVisibility(View.VISIBLE);

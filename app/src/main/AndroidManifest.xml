@@ -27,7 +27,8 @@
             android:name=".VideoPlayerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity android:name=".SearchActvity" />
-        <activity android:name=".HomeActivity">
+        <activity android:name=".HomeActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

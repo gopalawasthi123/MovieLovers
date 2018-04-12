@@ -111,6 +111,16 @@ import java.util.List;
 
         private double vote_average;
 
+        private String movie_type;
+
+        public String getMovie_type() {
+            return movie_type;
+        }
+
+        public void setMovie_type(String movie_type) {
+            this.movie_type = movie_type;
+        }
+
         private String title;
         @Ignore
         private double popularity;

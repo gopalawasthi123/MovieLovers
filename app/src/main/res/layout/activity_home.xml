@@ -9,13 +9,10 @@
     android:background="#424"
     tools:context="com.example.gopalawasthi.movielovers.HomeActivity">
 
-    <TextView
-        android:layout_width="match_parent"
+    <ImageView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="40sp"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:textColor="@color/colorWhite"
-        android:text="Movie Lovers"/>
+        android:src="@drawable/movies"
+        android:layout_gravity="center"/>
 
 </LinearLayout>

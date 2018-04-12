@@ -2,35 +2,63 @@ package com.example.gopalawasthi.movielovers;
 
 import android.content.Intent;
 import android.os.Handler;
+import android.provider.FontsContract;
+import android.provider.SyncStateContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class HomeActivity extends AppCompatActivity {
+import com.daimajia.androidanimations.library.Techniques;
+import com.viksaa.sssplash.lib.activity.AwesomeSplash;
+import com.viksaa.sssplash.lib.cnst.Flags;
+import com.viksaa.sssplash.lib.model.ConfigSplash;
 
-    private final int SPLASH_DISPLAY_LENGTH = 2000;
-   LinearLayout layout ;
+public class HomeActivity extends AwesomeSplash{
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+    public void initSplash(ConfigSplash configSplash) {
+        //Customize Circular Reveal
+        configSplash.setBackgroundColor(R.color.colorPrimary); //any color you want form colors.xml
+        configSplash.setAnimCircularRevealDuration(2000); //int ms
+        configSplash.setRevealFlagX(Flags.REVEAL_RIGHT);  //or Flags.REVEAL_LEFT
+        configSplash.setRevealFlagY(Flags.REVEAL_BOTTOM); //or Flags.REVEAL_TOP
 
-        layout = findViewById(R.id.linearlayout);
-        layout.animate().alpha(0.2f).setDuration(2000);
-        /* New Handler to start the Menu-Activity
-         * and close this Splash-Screen after some seconds.*/
-        new Handler().postDelayed(new Runnable(){
-            @Override
-            public void run() {
-                /* Create an Intent that will start the Menu-Activity. */
-                Intent mainIntent = new Intent(HomeActivity.this,MoviesActivity.class);
-                HomeActivity.this.startActivity(mainIntent);
-                HomeActivity.this.finish();
-            }
-        }, SPLASH_DISPLAY_LENGTH);
+        //Choose LOGO OR PATH; if you don't provide String value for path it's logo by default
+
+        //Customize Logo
+        configSplash.setLogoSplash(R.drawable.movies); //or any other drawable
+        configSplash.setAnimLogoSplashDuration(1000); //int ms
+        configSplash.setAnimLogoSplashTechnique(Techniques.Bounce); //choose one form Techniques (ref: https://github.com/daimajia/AndroidViewAnimations)
+
+
+        //Customize Path
+        configSplash.setPathSplash(Constants.DROID_LOGO);
+        configSplash.setOriginalHeight(400); //in relation to your svg (path) resource
+        configSplash.setOriginalWidth(400); //in relation to your svg (path) resource
+        configSplash.setAnimPathStrokeDrawingDuration(2000);
+        configSplash.setPathSplashStrokeSize(3); //I advise value be <5
+        configSplash.setPathSplashStrokeColor(R.color.colorsplash); //any color you want form colors.xml
+        configSplash.setAnimPathFillingDuration(2000);
+        configSplash.setPathSplashFillColor(R.color.coloryellow); //path object filling color
+
+
+        //Customize Title
+        configSplash.setTitleSplash("Movie Lovers");
+        configSplash.setTitleTextColor(R.color.colorWhite);
+        configSplash.setTitleTextSize(30f); //float value
+        configSplash.setAnimTitleDuration(2000);
+        configSplash.setAnimTitleTechnique(Techniques.FlipInX);
+      //  configSplash.setTitleFont(); //provide string to your font located in assets/fonts/
     }
 
+    @Override
+    public void animationsFinished() {
+        Intent intent = new Intent(this,MoviesActivity.class);
+        startActivity(intent);
     }
+
+}
 
