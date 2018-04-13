@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements com.example.gopal
     ImageView backdrop;
     TextView description;
     int b;
+    CustomSwipetoRefresh refresh;
     List<TrailersClass.ResultsBean> trailerslist;
     RecyclerView trailerrecycler;
     trailerAdapter trailerAdapter;
@@ -62,7 +64,9 @@ public class MainActivity extends AppCompatActivity implements com.example.gopal
         layout = findViewById(R.id.collapse);
         description = findViewById(R.id.description);
 //        swipeRefreshLayout = findViewById(R.id.descriptionswipe);
-        Intent intent = getIntent();
+      final  Intent intent = getIntent();
+      refresh = findViewById(R.id.swiperefreshlayout);
+      refresh.setRefreshing(true);
         String a = intent.getStringExtra("moviename");
         b = intent.getIntExtra("movieid", -1);
         String c = intent.getStringExtra("movieposter");
@@ -81,12 +85,24 @@ public class MainActivity extends AppCompatActivity implements com.example.gopal
             createformovietrailers();
         }
         createfornowplaying();
+        refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (intent.hasCategory("TV")) {
+
+                    createforTVtrailers();
+                } else {
+                    createformovietrailers();
+                }
+                createfornowplaying();
+            }
+        });
     }
 
 
-
-
     private void createforTVtrailers(){
+        refresh.setRefreshing(true);
+        refresh.setColorSchemeColors(getResources().getColor(R.color.colorsplash),getResources().getColor(R.color.coloryellow));
         trailerslist = new ArrayList<>();
         trailerrecycler = findViewById(R.id.recycleryoutube);
         fetchdatafromTVyoutube();
@@ -94,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements com.example.gopal
         trailerrecycler.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
         trailerrecycler.setAdapter(trailerAdapter);
         trailerrecycler.setOnFlingListener(null);
+        refresh.setRefreshing(false);
     }
 
     private void fetchdatafromTVyoutube() {
@@ -118,13 +135,15 @@ public class MainActivity extends AppCompatActivity implements com.example.gopal
     }
 
     private void createformovietrailers() {
+        refresh.setRefreshing(true);
+        refresh.setColorSchemeColors( getResources().getColor(R.color.colorsplash),getResources().getColor(R.color.coloryellow));
         trailerslist = new ArrayList<>();
         trailerrecycler = findViewById(R.id.recycleryoutube);
         fetchdatafromyoutube();
         trailerAdapter = new trailerAdapter(trailerslist,this,this);
         trailerrecycler.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
         trailerrecycler.setAdapter(trailerAdapter);
-        trailerrecycler.setOnFlingListener(null);
+        refresh.setRefreshing(false);
     }
 
     private void fetchdatafromyoutube() {

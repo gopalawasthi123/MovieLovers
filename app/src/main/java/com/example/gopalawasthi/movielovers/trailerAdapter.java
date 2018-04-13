@@ -46,7 +46,9 @@ public class trailerAdapter extends RecyclerView.Adapter<trailerAdapter.TrailerH
     @Override
     public void onBindViewHolder(@NonNull final TrailerHolder holder, final int position) {
         TrailersClass.ResultsBean resultsBean =  list.get(position);
-        holder.name.setText(resultsBean.getName());
+        if(resultsBean.getName()!=null) {
+            holder.name.setText(resultsBean.getName());
+        }
         Picasso.get().load(YOUTUBE_THUMBNAIL+ resultsBean.getKey()+"/0.jpg").fit().into(holder.imageView);
         Log.d("image",YOUTUBE_THUMBNAIL+ resultsBean.getKey()+"/0.jpg");
         holder.imageView.setOnClickListener(new View.OnClickListener() {

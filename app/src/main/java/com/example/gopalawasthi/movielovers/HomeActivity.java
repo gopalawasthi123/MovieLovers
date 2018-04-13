@@ -56,8 +56,10 @@ public class HomeActivity extends AwesomeSplash{
 
     @Override
     public void animationsFinished() {
+
         Intent intent = new Intent(this,MoviesActivity.class);
         startActivity(intent);
+        finish();
     }
 
 }

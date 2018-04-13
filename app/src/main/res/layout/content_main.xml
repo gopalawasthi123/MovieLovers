@@ -9,7 +9,11 @@
     tools:context="com.example.gopalawasthi.movielovers.MainActivity"
     tools:showIn="@layout/activity_main">
 
-
+    <com.example.gopalawasthi.movielovers.CustomSwipetoRefresh
+        android:id="@+id/swiperefreshlayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android">
 
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -30,6 +34,7 @@
                         android:layout_height="wrap_content"
                         android:padding="4dp"
                         android:text="Description"
+                        android:id="@+id/desc"
                         android:textColor="@color/colorWhite"
                         android:textStyle="bold"
                         android:textSize="20sp"
@@ -50,6 +55,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Cast"
+                        android:id="@+id/cast"
                         android:textColor="@color/colorWhite"
                         android:textStyle="bold"
                         android:textSize="20sp" />
@@ -81,6 +87,7 @@
 
         </android.support.v4.widget.NestedScrollView>
 
+    </com.example.gopalawasthi.movielovers.CustomSwipetoRefresh>
 
 
 </android.support.design.widget.CoordinatorLayout>

@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -30,13 +31,14 @@ public class ShowallList extends AppCompatActivity {
     List<Nowplaying.ResultsBean> list;
     MoviesAdapter adapter;
     Button button;
-    String a;
-
+     String a;
+    private boolean loading = true;
+    int pastVisiblesItems, visibleItemCount, totalItemCount;
+    LinearLayoutManager linearLayoutManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_showall_list);
-        button = findViewById(R.id.Loadmore);
         Intent intent = getIntent();
         if(intent.hasCategory("nowplaying")){
             a = "now_playing";
@@ -56,7 +58,7 @@ public class ShowallList extends AppCompatActivity {
         //
 
     }
-    private void createfornowplaying(String a) {
+    private void createfornowplaying(final String a) {
 
         list = new ArrayList<>();
         recyclerView = findViewById(R.id.showalllistrecycler);
@@ -82,6 +84,10 @@ public class ShowallList extends AppCompatActivity {
             }
         });
         recyclerView.setAdapter(adapter);
+        linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setItemAnimator( new DefaultItemAnimator());
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -90,13 +96,24 @@ public class ShowallList extends AppCompatActivity {
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if(dy > 0){
+                    visibleItemCount = linearLayoutManager.getChildCount();
+                    totalItemCount =  linearLayoutManager.getItemCount();
+                    pastVisiblesItems =  linearLayoutManager.findFirstVisibleItemPosition();
 
+                    if(loading){
+                        if(visibleItemCount + pastVisiblesItems >= totalItemCount){
+
+                            pagecount =pagecount+1;
+                            fetchdatafromnetwork(a);
+                        }
+                    }
+                }
 
                 super.onScrolled(recyclerView, dx, dy);
             }
         });
-        recyclerView.setLayoutManager(new LinearLayoutManager(this,GridLayoutManager.VERTICAL,false));
-        recyclerView.setItemAnimator( new DefaultItemAnimator());
+
 //        List.clear();
 //        List.addAll(list);
 //        adapter.notifyDataSetChanged();
@@ -133,8 +150,7 @@ public class ShowallList extends AppCompatActivity {
 
     public void LoadMore(View view) {
 
-        pagecount =pagecount+1;
-        fetchdatafromnetwork(a);
+
     }
 
     public void LoadMoreSearch(View view) {

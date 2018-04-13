@@ -31,6 +31,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -56,6 +57,7 @@ ListView listView;
     SearchView searchView;
     Dialog dialog;
     ArrayList<String> arrayList;
+
     List<SearchClass.ResultsBean> searchClassList;
 //    GridLayoutManager gridLayoutManager;
 
@@ -76,8 +78,9 @@ ListView listView;
                 (AppCompatActivity) this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+              NavigationView navigationView = this.findViewById(R.id.nav_view);
 
-        NavigationView navigationView = this.findViewById(R.id.nav_view);
+
         navigationView.setNavigationItemSelectedListener(this);
         setfragment(new MovieFragment());
         searchClassList = new ArrayList<>();

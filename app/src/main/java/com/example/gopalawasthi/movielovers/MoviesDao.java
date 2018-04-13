@@ -18,8 +18,7 @@ public interface MoviesDao {
    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void oninsertMovies(List<Nowplaying.ResultsBean> beanList);
 
-   @Query("SELECT * FROM beansList ")
+   @Query("SELECT * FROM beansList")
     List<Nowplaying.ResultsBean> getallmovies();
 
-
-    }
+}

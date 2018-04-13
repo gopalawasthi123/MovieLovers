@@ -113,7 +113,7 @@ public class MovieFragment extends Fragment implements com.example.gopalawasthi.
         swipeRefreshLayout = view.findViewById(R.id.swiperefreshlayout);
         viewallnowplaying = view.findViewById(R.id.showallnowplaying);
 
-
+        swipeRefreshLayout.setRefreshing(true);
         //TOdo connectivity manager for the internet check
 
 
@@ -159,7 +159,8 @@ public class MovieFragment extends Fragment implements com.example.gopalawasthi.
 
     private void createfornowplaying(View view) {
         swipeRefreshLayout.setRefreshing(true);
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimaryDark),getResources().getColor(R.color.colorWhite));
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorsplash),getResources().getColor(R.color.coloryellow));
+
         ListNow = new ArrayList<>();
         recyclerView = view.findViewById(R.id.recyclerview);
 //        movieDatabase = Room.databaseBuilder(this,MovieDatabase.class,"mymovies").allowMainThreadQueries().build();
