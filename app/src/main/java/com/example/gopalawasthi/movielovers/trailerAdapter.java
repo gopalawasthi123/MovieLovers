@@ -49,7 +49,7 @@ public class trailerAdapter extends RecyclerView.Adapter<trailerAdapter.TrailerH
         if(resultsBean.getName()!=null) {
             holder.name.setText(resultsBean.getName());
         }
-        Picasso.get().load(YOUTUBE_THUMBNAIL+ resultsBean.getKey()+"/0.jpg").fit().into(holder.imageView);
+        Picasso.get().load(YOUTUBE_THUMBNAIL+ resultsBean.getKey()+"/0.jpg").into(holder.imageView);
         Log.d("image",YOUTUBE_THUMBNAIL+ resultsBean.getKey()+"/0.jpg");
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -47,11 +47,13 @@ public class MainActivity extends AppCompatActivity implements com.example.gopal
     ImageView poster;
     ImageView backdrop;
     TextView description;
+    TextView cast;
     int b;
     CustomSwipetoRefresh refresh;
     List<TrailersClass.ResultsBean> trailerslist;
     RecyclerView trailerrecycler;
     trailerAdapter trailerAdapter;
+    TextView trailers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements com.example.gopal
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        cast = findViewById(R.id.cast);
+        trailers = findViewById(R.id.trailer);
         poster = findViewById(R.id.poster);
         backdrop = findViewById(R.id.backdrop);
         layout = findViewById(R.id.collapse);
@@ -154,8 +158,11 @@ public class MainActivity extends AppCompatActivity implements com.example.gopal
                 if(response.body()!=null) {
                   TrailersClass trailersClass = response.body();
                   trailerslist.clear();
-                  trailerslist.addAll(trailersClass.getResults());
-                    trailerAdapter.notifyDataSetChanged();
+                  if(response.body().getResults().size()!=0) {
+                      trailerslist.addAll(trailersClass.getResults());
+                      trailers.setVisibility(View.VISIBLE);
+                  }trailerAdapter.notifyDataSetChanged();
+
 
                 }
             }
@@ -201,7 +208,10 @@ public class MainActivity extends AppCompatActivity implements com.example.gopal
                 if (response.isSuccessful()) {
                     MovieCredits root = response.body();
                     List.clear();
-                    List.addAll(root.getCast());
+                    if(root.getCast().size()!=0) {
+                        List.addAll(root.getCast());
+                        cast.setVisibility(View.VISIBLE);
+                    }
                     adapter.notifyDataSetChanged();
 
                 }
@@ -209,7 +219,7 @@ public class MainActivity extends AppCompatActivity implements com.example.gopal
             }
             @Override
             public void onFailure(Call<MovieCredits> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "fail to load the activity", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "check the internet connection!!", Toast.LENGTH_SHORT).show();
             }
         });
 

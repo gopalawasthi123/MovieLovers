@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.telecom.Call;
@@ -38,6 +39,7 @@ public class TvFragment extends Fragment{
     List<TvClass.ResultsBean> tvpopular;
     TvtopratedAdapter adapter;
     TvtopratedAdapter popularadapter;
+    CustomSwipetoRefresh refresh;
 
 
     public TvFragment() {
@@ -66,15 +68,25 @@ public class TvFragment extends Fragment{
        final View view = inflater.inflate(R.layout.fragment_tv, container, false);;
         // Inflate the layout for this fragment
 
+            refresh = view.findViewById(R.id.swiperefreshlayout);
+            refresh.setRefreshing(true);
             createfortopratedtv(view);
             createforpoplartv(view);
         tvpopularrecycler = view.findViewById(R.id.recyclerpopulartv);
 
+        refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                createfortopratedtv(view);
+                createforpoplartv(view);
+            }
+        });
 
         return view;
     }
 
     private void createforpoplartv(View view) {
+        refresh.setRefreshing(true);
         tvpopularrecycler = view.findViewById(R.id.recyclerpopulartv);
         tvpopular = new ArrayList<>();
         fetchdatafrompopulartv();
@@ -88,6 +100,7 @@ public class TvFragment extends Fragment{
         tvpopularrecycler.setAdapter(popularadapter);
         tvpopularrecycler.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
         tvpopularrecycler.setOnFlingListener(null);
+        refresh.setRefreshing(false);
     }
 
     private void fetchdatafrompopulartv() {
@@ -110,6 +123,7 @@ public class TvFragment extends Fragment{
     }
 
     private void createfortopratedtv(View view) {
+        refresh.setRefreshing(true);
 
         tvopratedrecycler = view.findViewById(R.id.topratetvrecycler);
         tvtoprated = new ArrayList<>();
@@ -124,6 +138,8 @@ public class TvFragment extends Fragment{
         tvopratedrecycler.setAdapter(adapter);
         tvopratedrecycler.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
         tvopratedrecycler.setOnFlingListener(null);
+        refresh.setRefreshing(false
+        );
     }
 
     private void fetchdatafromnetwork() {

@@ -56,6 +56,7 @@
                         android:layout_height="wrap_content"
                         android:text="Cast"
                         android:id="@+id/cast"
+                        android:visibility="invisible"
                         android:textColor="@color/colorWhite"
                         android:textStyle="bold"
                         android:textSize="20sp" />
@@ -71,6 +72,8 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorWhite"
                         android:textStyle="bold"
+                        android:visibility="invisible"
+                        android:id="@+id/trailer"
                         android:textSize="20sp"
                         android:text="Trailers"/>
 
