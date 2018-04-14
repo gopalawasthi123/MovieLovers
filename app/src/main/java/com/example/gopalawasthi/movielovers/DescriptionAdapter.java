@@ -23,11 +23,15 @@ import static com.example.gopalawasthi.movielovers.MoviesAdapter.IMAGE;
 public class DescriptionAdapter extends RecyclerView.Adapter<DescriptionAdapter.MyHolder> {
     List<MovieCredits.CastBean> beans ;
     Context context;
+    onCastItemclick listener;
+    interface onCastItemclick{
+        void oncastclick(int position);
+    }
 
-
-    public DescriptionAdapter(List<MovieCredits.CastBean> beans, Context context) {
+    public DescriptionAdapter(List<MovieCredits.CastBean> beans, Context context,onCastItemclick listener) {
         this.beans = beans;
         this.context = context;
+        this.listener = listener;
     }
 
     @NonNull
@@ -40,10 +44,16 @@ public class DescriptionAdapter extends RecyclerView.Adapter<DescriptionAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final MyHolder holder, int position) {
         MovieCredits.CastBean resultsBean = beans.get(position);
      //    holder.description.setText(resultsBean.);
          Picasso.get().load(IMAGE+resultsBean.getProfile_path()).fit().into(holder.moviecredits);
+         holder.moviecredits.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 listener.oncastclick(holder.getAdapterPosition());
+             }
+         });
          holder.actorname.setText(resultsBean.getName());
 //         Picasso.get().load(IMAGE+resultsBean.getPoster_path()).fit().into(holder.poster);
     }

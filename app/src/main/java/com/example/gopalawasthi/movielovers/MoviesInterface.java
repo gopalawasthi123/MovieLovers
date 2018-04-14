@@ -61,6 +61,9 @@ public interface MoviesInterface {
                                     @Query("page") int page,
                                     @Query("include_adult") boolean a);
 
-
+    @GET("3/person/{person_id}")
+    Call<ActorBiopic> getActorInfo (@Path("person_id") int id,
+                                    @Query("api_key") String Key,
+                                     @Query("language") String en);
 
 }

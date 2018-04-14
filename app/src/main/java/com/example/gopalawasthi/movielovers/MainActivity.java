@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+import com.wang.avi.Indicator;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements com.example.gopal
 //    CustomSwipetoRefresh swipeRefreshLayout ;
     RecyclerView recyclerView;
     List<MovieCredits.CastBean>List;
-
+    public static final String CAST_ID = "cast";
     DescriptionAdapter adapter;
     ImageView poster;
     ImageView backdrop;
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements com.example.gopal
     RecyclerView trailerrecycler;
     trailerAdapter trailerAdapter;
     TextView trailers;
+    Indicator avi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements com.example.gopal
         backdrop = findViewById(R.id.backdrop);
         layout = findViewById(R.id.collapse);
         description = findViewById(R.id.description);
+
 //        swipeRefreshLayout = findViewById(R.id.descriptionswipe);
       final  Intent intent = getIntent();
       refresh = findViewById(R.id.swiperefreshlayout);
@@ -125,8 +128,12 @@ public class MainActivity extends AppCompatActivity implements com.example.gopal
                 if(response.body()!=null) {
                     TrailersClass trailersClass = response.body();
                     trailerslist.clear();
-                    trailerslist.addAll(trailersClass.getResults());
+                    if(response.body().getResults().size()!=0) {
+                        trailerslist.addAll(trailersClass.getResults());
+                        trailers.setVisibility(View.VISIBLE);
+                    }
                     trailerAdapter.notifyDataSetChanged();
+
 
                 }
             }
@@ -163,7 +170,6 @@ public class MainActivity extends AppCompatActivity implements com.example.gopal
                       trailers.setVisibility(View.VISIBLE);
                   }trailerAdapter.notifyDataSetChanged();
 
-
                 }
             }
 
@@ -185,7 +191,16 @@ public class MainActivity extends AppCompatActivity implements com.example.gopal
 //              List<Nowplaying.ResultsBean> list =movieDao.getnowplaing();
 
         fetchdatafromnetwork();
-        adapter =  new DescriptionAdapter(List,this);
+        adapter =  new DescriptionAdapter(List, this, new DescriptionAdapter.onCastItemclick() {
+            @Override
+            public void oncastclick(int position) {
+                MovieCredits.CastBean credits = List.get(position);
+                int id = credits.getId();
+                Intent intent = new Intent(MainActivity.this,actorInfo.class);
+                intent.putExtra(CAST_ID,id);
+                startActivity(intent);
+            }
+        });
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false));
         recyclerView.setItemAnimator( new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);

@@ -9,6 +9,14 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.gopalawasthi.movielovers.ShowallList">
 
+    <com.wang.avi.AVLoadingIndicatorView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/avi"
+
+        app:indicatorName="PacmanIndicator" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

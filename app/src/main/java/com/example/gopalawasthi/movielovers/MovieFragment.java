@@ -82,6 +82,7 @@ public class MovieFragment extends Fragment implements com.example.gopalawasthi.
         void onpopularmovieClick(Nowplaying.ResultsBean popular);
         void ontopratedmovieClick(Nowplaying.ResultsBean toprated);
         void onupcomingmovieclick(Nowplaying.ResultsBean upcoming);
+        void onnowplayinglongclick(Nowplaying.ResultsBean nowlong);
     }
 
     public MovieFragment() {
@@ -179,6 +180,12 @@ public class MovieFragment extends Fragment implements com.example.gopalawasthi.
             public void onItemclick(int position) {
                 Nowplaying.ResultsBean nowplayingresults = ListNow.get(position);
                 interfacecallback.onmovieClick(nowplayingresults);
+            }
+
+            @Override
+            public void onlongItemclick(int position) {
+                Nowplaying.ResultsBean nowplayinglongclick = ListNow.get(position);
+                interfacecallback.onnowplayinglongclick(nowplayinglongclick);
             }
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL,false));
@@ -367,7 +374,7 @@ public class MovieFragment extends Fragment implements com.example.gopalawasthi.
         interfacecallback.ontopratedmovieClick(topratedresults);
 
     }
-    // for the upcoming categrory
+
 
 
 }

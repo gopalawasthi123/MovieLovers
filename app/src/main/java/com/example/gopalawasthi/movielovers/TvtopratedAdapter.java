@@ -25,6 +25,8 @@ public class TvtopratedAdapter extends RecyclerView.Adapter<TvtopratedAdapter.My
     List<TvClass.ResultsBean> list;
     onitemClicklistener clicklistener;
 
+
+
     interface  onitemClicklistener{
         void onitemclick(int position);
     }

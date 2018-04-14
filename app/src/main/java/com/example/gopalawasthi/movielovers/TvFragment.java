@@ -49,6 +49,10 @@ public class TvFragment extends Fragment{
     public interface onTvclick{
         void ontopratedmovieClick(TvClass.ResultsBean resultsBean);
         void onpopularmovieClick(TvClass.ResultsBean resultsBean);
+
+        void  showallpopulartv(View view);
+
+        void showalltopratedtv(View view);
     }
 
     @Override

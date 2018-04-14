@@ -34,6 +34,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolde
 
     interface onitemclicklistener{
         void onItemclick(int position);
+        void onlongItemclick(int position);
     }
 
 
@@ -73,6 +74,13 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolde
                 .load(IMAGE+bean.getBackdrop_path())
                 .fit()
                 .into(holder.imageView);
+        holder.imageView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                listener.onlongItemclick(holder.getAdapterPosition());
+                return true;
+            }
+        });
 
     }
 

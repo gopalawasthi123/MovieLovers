@@ -175,6 +175,11 @@ ListView listView;
         startActivity(intent);
     }
 
+    @Override
+    public void onnowplayinglongclick(Nowplaying.ResultsBean nowlong) {
+
+    }
+
     public void showallnowplaying(View view) {
         Intent intent = new Intent(this,ShowallList.class);
         intent.addCategory("nowplaying");
@@ -297,5 +302,19 @@ ListView listView;
     }
 
 
+    @Override
+    public void  showallpopulartv(View view){
+        Intent intent = new Intent(this,ShowallList.class);
+        intent.addCategory("tvpopular");
+        startActivity(intent);
+
+    }
+
+    @Override
+    public void showalltopratedtv(View view){
+        Intent intent = new Intent(this,ShowallList.class);
+        intent.addCategory("tvtoprated");
+        startActivity(intent);
+    }
     }
 

@@ -22,3 +22,4 @@ public interface MoviesDao {
     List<Nowplaying.ResultsBean> getallmovies();
 
 }
+ 
