@@ -19,6 +19,7 @@ import static com.example.gopalawasthi.movielovers.MoviesActivity.MOVIEDATABASE_
 /**
  * A simple {@link Fragment} subclass.
  */
+//Todo
 public class FavouriteFragment extends Fragment implements MoviesAdapter.onitemclicklistener {
 
     RecyclerView favouriterecycler;
@@ -26,7 +27,7 @@ public class FavouriteFragment extends Fragment implements MoviesAdapter.onitemc
     List<Nowplaying.ResultsBean> resultsBeans;
     MoviesDao dao;
     Moviedatabase moviedatabase;
-
+    List<Nowplaying.ResultsBean> list;
     int id;
     Nowplaying.ResultsBean bean;
     public FavouriteFragment() {
@@ -39,18 +40,26 @@ public class FavouriteFragment extends Fragment implements MoviesAdapter.onitemc
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_favourite, container, false);
         // Inflate the layout for this fragment
-
-         id = getArguments().getInt(MOVIEDATABASE_ID);
-
+            if(getArguments()!=null) {
+                id = getArguments().getInt(MOVIEDATABASE_ID);
+            }
         favouriterecycler = view.findViewById(R.id.recyclerfavourite);
         resultsBeans = new ArrayList<>();
         moviedatabase = Moviedatabase.getINSTANCE(getContext());
-           resultsBeans.add((Nowplaying.ResultsBean) dao.getMoviefavourite(id)) ;
-
+        list = new ArrayList<>();
+        dao = moviedatabase.getMovieDao();
+                if(id != 0) {
+                    resultsBeans = dao.getMoviefavourite(id);
+                }
 //        resultsBeans.addAll( dao.getMoviefavourite(id)) ;
-        adapter = new MoviesAdapter(resultsBeans, getContext(),this);
-        favouriterecycler.setAdapter(adapter);
+        adapter = new MoviesAdapter(list, getContext(),this);
+
         favouriterecycler.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        favouriterecycler.setAdapter(adapter);
+//        list.clear();
+
+            list.addAll(resultsBeans);
+
         adapter.notifyDataSetChanged();
 
         return view;

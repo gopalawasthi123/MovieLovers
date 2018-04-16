@@ -86,7 +86,7 @@ import java.util.List;
         }
     }
     @Entity(tableName = "beansList")
-    public static class ResultsBean implements Serializable {
+    public static class ResultsBean  {
         /**
          * vote_count : 1009
          * id : 337167

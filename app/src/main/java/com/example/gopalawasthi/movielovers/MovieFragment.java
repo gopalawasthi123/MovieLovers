@@ -181,7 +181,7 @@ public class MovieFragment extends Fragment implements com.example.gopalawasthi.
                 Nowplaying.ResultsBean nowplayingresults = ListNow.get(position);
                 interfacecallback.onmovieClick(nowplayingresults);
             }
-
+            //Todo
             @Override
             public void onlongItemclick(int position) {
                 Nowplaying.ResultsBean nowplayinglongclick = ListNow.get(position);

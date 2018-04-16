@@ -53,7 +53,14 @@ public class MoviesActivity extends AppCompatActivity implements NavigationView.
 
     List<Nowplaying.ResultsBean> ListNow;
 
-//
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fragment = new FavouriteFragment();
+    }
+
+    //
 ListView listView;
     SearchView searchView;
     Dialog dialog;
@@ -72,6 +79,7 @@ ListView listView;
         setContentView(R.layout.movies);
         Toolbar toolbar =  findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        fragment = new FavouriteFragment();
 //        screenSize = getResources().getSystem().getConfiguration().screenLayout &
 //                Configuration.SCREENLAYOUT_SIZE_MASK;
 //        headernowplaying = findViewById(R.id.nowplayingheader);
@@ -178,7 +186,7 @@ ListView listView;
         intent.putExtra("description",upcoming.getOverview());
         startActivity(intent);
     }
-
+    // Todo
     @Override
     public  void onnowplayinglongclick(Nowplaying.ResultsBean nowlong) {
        int id =  nowlong.getId();
@@ -190,8 +198,7 @@ ListView listView;
         moviesDao = moviedatabase.getMovieDao();
         moviesDao.oninsertFavouriteMovie(nowlong);
         Bundle bundle = new Bundle();
-       bundle.putInt(MOVIEDATABASE_ID,id);
-        fragment = new FavouriteFragment();
+        bundle.putInt(MOVIEDATABASE_ID,id);
         fragment.setArguments(bundle);
     }
 
