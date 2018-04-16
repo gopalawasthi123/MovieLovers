@@ -25,6 +25,8 @@ public class FavouriteFragment extends Fragment implements MoviesAdapter.onitemc
     MoviesAdapter adapter ;
     List<Nowplaying.ResultsBean> resultsBeans;
     MoviesDao dao;
+    Moviedatabase moviedatabase;
+
     int id;
     Nowplaying.ResultsBean bean;
     public FavouriteFragment() {
@@ -37,13 +39,15 @@ public class FavouriteFragment extends Fragment implements MoviesAdapter.onitemc
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_favourite, container, false);
         // Inflate the layout for this fragment
-        if(getArguments()!=null) {
-            bean = (Nowplaying.ResultsBean) getArguments().getSerializable(MOVIEDATABASE_ID);
-        }
+
+         id = getArguments().getInt(MOVIEDATABASE_ID);
+
         favouriterecycler = view.findViewById(R.id.recyclerfavourite);
         resultsBeans = new ArrayList<>();
-            id =  bean.getId();
-        resultsBeans.addAll( dao.getMoviefavourite(id)) ;
+        moviedatabase = Moviedatabase.getINSTANCE(getContext());
+           resultsBeans.add((Nowplaying.ResultsBean) dao.getMoviefavourite(id)) ;
+
+//        resultsBeans.addAll( dao.getMoviefavourite(id)) ;
         adapter = new MoviesAdapter(resultsBeans, getContext(),this);
         favouriterecycler.setAdapter(adapter);
         favouriterecycler.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));

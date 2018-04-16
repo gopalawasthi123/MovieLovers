@@ -59,6 +59,7 @@ ListView listView;
     Dialog dialog;
     ArrayList<String> arrayList;
     Moviedatabase moviedatabase;
+    FavouriteFragment fragment;
     MoviesDao moviesDao;
     public static final String MOVIEDATABASE_ID ="id";
 
@@ -103,7 +104,7 @@ ListView listView;
 
             setfragment(new TvFragment());
         } else if (id == R.id.nav_slideshow) {
-            setfragment(new FavouriteFragment());
+            setfragment(fragment);
 
         } else if (id == R.id.nav_share) {
 
@@ -181,13 +182,16 @@ ListView listView;
     @Override
     public  void onnowplayinglongclick(Nowplaying.ResultsBean nowlong) {
        int id =  nowlong.getId();
+//       String title = nowlong.getTitle();
+//       String  backdrop = nowlong.getBackdrop_path();
+//       String userrating =  String.valueOf(nowlong.getVote_average());
 
         moviedatabase = Moviedatabase.getINSTANCE(MoviesActivity.this);
         moviesDao = moviedatabase.getMovieDao();
         moviesDao.oninsertFavouriteMovie(nowlong);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(MOVIEDATABASE_ID,  nowlong);
-        FavouriteFragment fragment = new FavouriteFragment();
+       bundle.putInt(MOVIEDATABASE_ID,id);
+        fragment = new FavouriteFragment();
         fragment.setArguments(bundle);
     }
 
