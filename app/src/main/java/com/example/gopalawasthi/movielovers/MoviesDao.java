@@ -1,6 +1,7 @@
 package com.example.gopalawasthi.movielovers;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
@@ -24,11 +25,13 @@ public interface MoviesDao {
     List<Nowplaying.ResultsBean> getallmovies();
 
    @Query("SELECT * FROM beansList WHERE id = :id")
-      List <Nowplaying.ResultsBean> getMoviefavourite(int id);
+     Nowplaying.ResultsBean getMoviefavourite(int id);
 
    @Insert(onConflict =  OnConflictStrategy.REPLACE)
     void oninsertFavouriteMovie(Nowplaying.ResultsBean bean);
 
+   @Delete
+    void ondeleteFavouriteMovie(Nowplaying.ResultsBean bean);
 
 }
  

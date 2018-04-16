@@ -48,8 +48,10 @@ public class FavouriteFragment extends Fragment implements MoviesAdapter.onitemc
         moviedatabase = Moviedatabase.getINSTANCE(getContext());
         list = new ArrayList<>();
         dao = moviedatabase.getMovieDao();
+           list.addAll(dao.getallmovies());
                 if(id != 0) {
-                    resultsBeans = dao.getMoviefavourite(id);
+                    resultsBeans.add(dao.getMoviefavourite(id));
+//                    dao.oninsertMovies(resultsBeans);
                 }
 //        resultsBeans.addAll( dao.getMoviefavourite(id)) ;
         adapter = new MoviesAdapter(list, getContext(),this);

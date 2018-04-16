@@ -169,9 +169,9 @@ public class MovieFragment extends Fragment implements com.example.gopalawasthi.
 //              List<Nowplaying.ResultsBean> list =movieDao.getnowplaing();
 
         moviedatabase = Moviedatabase.getINSTANCE(getContext());
-        dao = moviedatabase.getMovieDao();
+//        dao = moviedatabase.getMovieDao();
 //        String type = "now_playing";
-        List<Nowplaying.ResultsBean> mydao = dao.getallmovies();
+//        List<Nowplaying.ResultsBean> mydao = dao.getallmovies();
 //        Log.d("movies",mydao.get(2).getTitle());
 //        recyclerView.setVisibility(View.GONE);
 //        headernowplaying.setVisibility(View.GONE);
@@ -195,10 +195,11 @@ public class MovieFragment extends Fragment implements com.example.gopalawasthi.
         recyclerView.setOnFlingListener(null);
         SnapHelper snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(recyclerView);
-        ListNow.clear();
-        ListNow.addAll(mydao);
-        adapter.notifyDataSetChanged();
+//        ListNow.clear();
+//        ListNow.addAll(mydao);
         fetchdatafromnetwork();
+        adapter.notifyDataSetChanged();
+
 
 
         swipeRefreshLayout.setRefreshing(false);
@@ -223,7 +224,7 @@ public class MovieFragment extends Fragment implements com.example.gopalawasthi.
                     ListNow.addAll(root.getResults());
 
                     adapter.notifyDataSetChanged();
-                    dao.oninsertMovies(ListNow);
+//                    dao.oninsertMovies(ListNow);
                     recyclerView.setVisibility(View.VISIBLE);
                     headernowplaying.setVisibility(View.VISIBLE);
                 }
