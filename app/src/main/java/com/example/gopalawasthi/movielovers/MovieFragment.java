@@ -170,7 +170,7 @@ public class MovieFragment extends Fragment implements com.example.gopalawasthi.
 
         moviedatabase = Moviedatabase.getINSTANCE(getContext());
         dao = moviedatabase.getMovieDao();
-        String type = "now_playing";
+//        String type = "now_playing";
         List<Nowplaying.ResultsBean> mydao = dao.getallmovies();
 //        Log.d("movies",mydao.get(2).getTitle());
 //        recyclerView.setVisibility(View.GONE);

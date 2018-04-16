@@ -36,6 +36,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +58,9 @@ ListView listView;
     SearchView searchView;
     Dialog dialog;
     ArrayList<String> arrayList;
+    Moviedatabase moviedatabase;
+    MoviesDao moviesDao;
+    public static final String MOVIEDATABASE_ID ="id";
 
     List<SearchClass.ResultsBean> searchClassList;
 //    GridLayoutManager gridLayoutManager;
@@ -99,6 +103,7 @@ ListView listView;
 
             setfragment(new TvFragment());
         } else if (id == R.id.nav_slideshow) {
+            setfragment(new FavouriteFragment());
 
         } else if (id == R.id.nav_share) {
 
@@ -157,8 +162,6 @@ ListView listView;
         intent.putExtra("description",toprated
                 .getOverview());
         startActivity(intent);
-
-
     }
 
     @Override
@@ -176,8 +179,16 @@ ListView listView;
     }
 
     @Override
-    public void onnowplayinglongclick(Nowplaying.ResultsBean nowlong) {
+    public  void onnowplayinglongclick(Nowplaying.ResultsBean nowlong) {
+       int id =  nowlong.getId();
 
+        moviedatabase = Moviedatabase.getINSTANCE(MoviesActivity.this);
+        moviesDao = moviedatabase.getMovieDao();
+        moviesDao.oninsertFavouriteMovie(nowlong);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(MOVIEDATABASE_ID,  nowlong);
+        FavouriteFragment fragment = new FavouriteFragment();
+        fragment.setArguments(bundle);
     }
 
     public void showallnowplaying(View view) {

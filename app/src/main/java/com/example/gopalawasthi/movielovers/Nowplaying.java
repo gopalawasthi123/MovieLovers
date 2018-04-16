@@ -5,6 +5,7 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -85,7 +86,7 @@ import java.util.List;
         }
     }
     @Entity(tableName = "beansList")
-    public static class ResultsBean {
+    public static class ResultsBean implements Serializable {
         /**
          * vote_count : 1009
          * id : 337167
@@ -109,17 +110,17 @@ import java.util.List;
         @Ignore
         private boolean video;
 
+        private boolean type;
+
+        public boolean isType() {
+            return type;
+        }
+
+        public void setType(boolean type) {
+            this.type = type;
+        }
+
         private double vote_average;
-
-        private String movie_type;
-
-        public String getMovie_type() {
-            return movie_type;
-        }
-
-        public void setMovie_type(String movie_type) {
-            this.movie_type = movie_type;
-        }
 
         private String title;
         @Ignore
@@ -130,6 +131,7 @@ import java.util.List;
         private String original_language;
         @Ignore
         private String original_title;
+
         private String backdrop_path;
         @Ignore
         private boolean adult;
