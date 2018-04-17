@@ -26,6 +26,7 @@ public class popularmovieadapter extends RecyclerView.Adapter<popularmovieadapte
     public static final String IMAGE ="http://image.tmdb.org/t/p/w780";
     interface  OnitemClicklistener{
         void OnitemClick(int position);
+        void OnlongitemClick(int position);
     }
     OnitemClicklistener clicklistener;
     public popularmovieadapter(Context context, List<Nowplaying.ResultsBean> beans,OnitemClicklistener clicklistener) {
@@ -55,6 +56,13 @@ public class popularmovieadapter extends RecyclerView.Adapter<popularmovieadapte
             @Override
             public void onClick(View v) {
                 clicklistener.OnitemClick(holder.getAdapterPosition());
+            }
+        });
+        holder.imageView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+              clicklistener.OnlongitemClick(holder.getAdapterPosition());
+                return true;
             }
         });
         Picasso.get().load(IMAGE+bean.getBackdrop_path()).fit().into(holder.imageView);

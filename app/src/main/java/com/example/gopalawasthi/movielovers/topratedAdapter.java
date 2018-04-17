@@ -25,6 +25,7 @@ public class topratedAdapter extends RecyclerView.Adapter<topratedAdapter.TopRat
     public static final String IMAGE = "http://image.tmdb.org/t/p/w780";
     interface OnItemCickListener{
         void OnitemClicktop(int position);
+        void OnitemlongClicktop(int position);
     }
     OnItemCickListener listener;
 
@@ -56,6 +57,13 @@ public class topratedAdapter extends RecyclerView.Adapter<topratedAdapter.TopRat
           @Override
           public void onClick(View v) {
               listener.OnitemClicktop(holder.getAdapterPosition());
+          }
+      });
+      holder.imageView.setOnLongClickListener(new View.OnLongClickListener() {
+          @Override
+          public boolean onLongClick(View v) {
+                listener.OnitemlongClicktop(holder.getAdapterPosition());
+              return true;
           }
       });
     }

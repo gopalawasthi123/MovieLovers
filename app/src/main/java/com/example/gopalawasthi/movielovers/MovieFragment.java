@@ -83,6 +83,9 @@ public class MovieFragment extends Fragment implements com.example.gopalawasthi.
         void ontopratedmovieClick(Nowplaying.ResultsBean toprated);
         void onupcomingmovieclick(Nowplaying.ResultsBean upcoming);
         void onnowplayinglongclick(Nowplaying.ResultsBean nowlong);
+        void onpopularlongClick(Nowplaying.ResultsBean poplong);
+        void  ontopratedlongClick(Nowplaying.ResultsBean toprated);
+        void onupcominglongClick(Nowplaying.ResultsBean upcoming);
     }
 
     public MovieFragment() {
@@ -328,6 +331,13 @@ public class MovieFragment extends Fragment implements com.example.gopalawasthi.
                 interfacecallback.onupcomingmovieclick(upcomingresults);
 
             }
+
+            @Override
+            public void OnitemlongClickupcoming(int position) {
+                Nowplaying.ResultsBean upcominglongresults = upcominglist.get(position);
+                interfacecallback.onupcominglongClick(upcominglongresults);
+
+            }
         });
 
 
@@ -368,6 +378,13 @@ public class MovieFragment extends Fragment implements com.example.gopalawasthi.
         interfacecallback.onpopularmovieClick(popularresults);
 
     }
+
+    @Override
+    public void OnlongitemClick(int position) {
+        Nowplaying.ResultsBean resultsBean = popularList.get(position);
+        interfacecallback.onpopularlongClick(resultsBean);
+    }
+
     // for the toprated category
     @Override
     public void OnitemClicktop(int position) {
@@ -376,6 +393,11 @@ public class MovieFragment extends Fragment implements com.example.gopalawasthi.
 
     }
 
+    @Override
+    public void OnitemlongClicktop(int position) {
+        Nowplaying.ResultsBean resultsBean = toprated.get(position);
+        interfacecallback.ontopratedlongClick(resultsBean);
+    }
 
 
 }

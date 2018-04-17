@@ -97,7 +97,8 @@ ListView listView;
         navigationView.setNavigationItemSelectedListener(this);
         setfragment(new MovieFragment());
         searchClassList = new ArrayList<>();
-
+        moviedatabase = Moviedatabase.getINSTANCE(MoviesActivity.this);
+        moviesDao = moviedatabase.getMovieDao();
    }
 
     @Override
@@ -194,9 +195,35 @@ ListView listView;
 //       String  backdrop = nowlong.getBackdrop_path();
 //       String userrating =  String.valueOf(nowlong.getVote_average());
 
-        moviedatabase = Moviedatabase.getINSTANCE(MoviesActivity.this);
-        moviesDao = moviedatabase.getMovieDao();
+
         moviesDao.oninsertFavouriteMovie(nowlong);
+        Bundle bundle = new Bundle();
+        bundle.putInt(MOVIEDATABASE_ID,id);
+        fragment.setArguments(bundle);
+    }
+
+    @Override
+    public void onpopularlongClick(Nowplaying.ResultsBean poplong) {
+        int id =  poplong.getId();
+        moviesDao.oninsertFavouriteMovie(poplong);
+        Bundle bundle = new Bundle();
+        bundle.putInt(MOVIEDATABASE_ID,id);
+        fragment.setArguments(bundle);
+    }
+
+    @Override
+    public void ontopratedlongClick(Nowplaying.ResultsBean toprated) {
+        int id =  toprated.getId();
+        moviesDao.oninsertFavouriteMovie(toprated);
+        Bundle bundle = new Bundle();
+        bundle.putInt(MOVIEDATABASE_ID,id);
+        fragment.setArguments(bundle);
+    }
+
+    @Override
+    public void onupcominglongClick(Nowplaying.ResultsBean upcoming) {
+        int id =  upcoming.getId();
+        moviesDao.oninsertFavouriteMovie(upcoming);
         Bundle bundle = new Bundle();
         bundle.putInt(MOVIEDATABASE_ID,id);
         fragment.setArguments(bundle);

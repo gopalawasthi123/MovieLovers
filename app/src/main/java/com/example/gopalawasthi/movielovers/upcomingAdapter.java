@@ -32,6 +32,7 @@ public class upcomingAdapter extends RecyclerView.Adapter<upcomingAdapter.TopRat
 
     interface OnItemCickListener{
         void OnitemClickupcoming(int position);
+        void OnitemlongClickupcoming(int position);
     }
     OnItemCickListener listener;
 
@@ -59,6 +60,13 @@ public class upcomingAdapter extends RecyclerView.Adapter<upcomingAdapter.TopRat
             @Override
             public void onClick(View v) {
                 listener.OnitemClickupcoming(holder.getAdapterPosition());
+            }
+        });
+        holder.imageView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                listener.OnitemlongClickupcoming(holder.getAdapterPosition());
+                return true;
             }
         });
     }

@@ -1,6 +1,5 @@
 package com.example.gopalawasthi.movielovers;
 
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.gopalawasthi.movielovers.MoviesActivity.MOVIEDATABASE_ID;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -69,6 +67,8 @@ public class FavouriteFragment extends Fragment implements MoviesAdapter.onitemc
 
     @Override
     public void onItemclick(int position) {
+        Nowplaying.ResultsBean bean = list.get(position);
+
 
     }
 
