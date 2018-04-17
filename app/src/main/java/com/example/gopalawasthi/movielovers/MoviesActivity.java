@@ -8,7 +8,9 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -36,6 +38,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
+import com.wang.avi.AVLoadingIndicatorView;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,9 +53,10 @@ import static com.example.gopalawasthi.movielovers.MovieFragment.LANGUGAGE;
 import static com.example.gopalawasthi.movielovers.MovieFragment.PAGE;
 import static java.util.Collections.addAll;
 
-public class MoviesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,MovieFragment.onMovieClickInterfacecallback,TvFragment.onTvclick {
+public class MoviesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,MovieFragment.onMovieClickInterfacecallback,TvFragment.onTvclick , FavouriteFragment.onMovieclicklistener {
 
     List<Nowplaying.ResultsBean> ListNow;
+
 
 
     @Override
@@ -69,6 +74,7 @@ ListView listView;
     FavouriteFragment fragment;
     MoviesDao moviesDao;
     public static final String MOVIEDATABASE_ID ="id";
+    CoordinatorLayout coordinatorLayout ;
 
     List<SearchClass.ResultsBean> searchClassList;
 //    GridLayoutManager gridLayoutManager;
@@ -80,6 +86,8 @@ ListView listView;
         Toolbar toolbar =  findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         fragment = new FavouriteFragment();
+
+
 //        screenSize = getResources().getSystem().getConfiguration().screenLayout &
 //                Configuration.SCREENLAYOUT_SIZE_MASK;
 //        headernowplaying = findViewById(R.id.nowplayingheader);
@@ -93,7 +101,7 @@ ListView listView;
         toggle.syncState();
               NavigationView navigationView = this.findViewById(R.id.nav_view);
 
-
+        coordinatorLayout = findViewById(R.id.moviecontainer);
         navigationView.setNavigationItemSelectedListener(this);
         setfragment(new MovieFragment());
         searchClassList = new ArrayList<>();
@@ -200,6 +208,9 @@ ListView listView;
         Bundle bundle = new Bundle();
         bundle.putInt(MOVIEDATABASE_ID,id);
         fragment.setArguments(bundle);
+        Snackbar snackbar = Snackbar.make(coordinatorLayout,"Added to Favourites",Snackbar.LENGTH_SHORT);
+        snackbar.setActionTextColor(Color.RED);
+        snackbar.show();
     }
 
     @Override
@@ -209,6 +220,9 @@ ListView listView;
         Bundle bundle = new Bundle();
         bundle.putInt(MOVIEDATABASE_ID,id);
         fragment.setArguments(bundle);
+        Snackbar snackbar = Snackbar.make(coordinatorLayout,"Added to Favourites",Snackbar.LENGTH_SHORT);
+        snackbar.setActionTextColor(Color.RED);
+        snackbar.show();
     }
 
     @Override
@@ -218,6 +232,9 @@ ListView listView;
         Bundle bundle = new Bundle();
         bundle.putInt(MOVIEDATABASE_ID,id);
         fragment.setArguments(bundle);
+        Snackbar snackbar = Snackbar.make(coordinatorLayout,"Added to Favourites",Snackbar.LENGTH_SHORT);
+        snackbar.setActionTextColor(Color.RED);
+        snackbar.show();
     }
 
     @Override
@@ -227,6 +244,10 @@ ListView listView;
         Bundle bundle = new Bundle();
         bundle.putInt(MOVIEDATABASE_ID,id);
         fragment.setArguments(bundle);
+        Snackbar snackbar = Snackbar.make(coordinatorLayout,"Added to Favourites",Snackbar.LENGTH_SHORT);
+        snackbar.setActionTextColor(Color.RED);
+        snackbar.show();
+
     }
 
     public void showallnowplaying(View view) {
@@ -280,6 +301,8 @@ ListView listView;
         intent.putExtra("description",resultsBean.getOverview());
         startActivity(intent);
     }
+
+
 
     @Override
     public void onpopularmovieClick(TvClass.ResultsBean resultsBean) {
@@ -365,5 +388,19 @@ ListView listView;
         intent.addCategory("tvtoprated");
         startActivity(intent);
     }
+
+
+    @Override
+    public void onmovieClickfavourite(Nowplaying.ResultsBean bean) {
+        Intent intent = new Intent(this,MainActivity.class);
+        int a =  bean.getId();
+        String b =  bean.getTitle();
+        intent.putExtra("movieid",a);
+        intent.putExtra("moviename",b);
+        intent.putExtra("movieposter",bean.getPoster_path());
+        intent.putExtra("moviebackdrop",bean.getBackdrop_path());
+        intent.putExtra("description",bean.getOverview());
+        startActivity(intent);
     }
+}
 

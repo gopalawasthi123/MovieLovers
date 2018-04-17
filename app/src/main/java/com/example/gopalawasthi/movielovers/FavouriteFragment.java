@@ -1,5 +1,7 @@
 package com.example.gopalawasthi.movielovers;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,10 +29,30 @@ public class FavouriteFragment extends Fragment implements MoviesAdapter.onitemc
     Moviedatabase moviedatabase;
     List<Nowplaying.ResultsBean> list;
     int id;
-    Nowplaying.ResultsBean bean;
+
+    onMovieclicklistener movieclicklistener;
+
+
+  public interface  onMovieclicklistener{
+       void onmovieClickfavourite(Nowplaying.ResultsBean bean);
+   }
     public FavouriteFragment() {
         // Required empty public constructor
     }
+
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try{
+            movieclicklistener = (onMovieclicklistener) context;
+
+        }catch (ClassCastException e){
+
+        }
+
+    }
+
 
 
     @Override
@@ -68,8 +90,7 @@ public class FavouriteFragment extends Fragment implements MoviesAdapter.onitemc
     @Override
     public void onItemclick(int position) {
         Nowplaying.ResultsBean bean = list.get(position);
-
-
+        movieclicklistener.onmovieClickfavourite(bean);
     }
 
     @Override

@@ -125,7 +125,7 @@ import java.util.List;
         private String title;
         @Ignore
         private double popularity;
-        @Ignore
+
         private String poster_path;
         @Ignore
         private String original_language;
@@ -135,7 +135,7 @@ import java.util.List;
         private String backdrop_path;
         @Ignore
         private boolean adult;
-        @Ignore
+
         private String overview;
         @Ignore
         private String release_date;

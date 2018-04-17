@@ -30,6 +30,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.wang.avi.AVLoadingIndicatorView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,7 +72,7 @@ public class MovieFragment extends Fragment implements com.example.gopalawasthi.
     RecyclerView recyclerupcoming;
     List<Nowplaying.ResultsBean> upcominglist;
     upcomingAdapter upcomingAdapter;
-
+    AVLoadingIndicatorView avi;
     Moviedatabase moviedatabase;
     MoviesDao dao;
     onMovieClickInterfacecallback interfacecallback;
@@ -116,7 +118,7 @@ public class MovieFragment extends Fragment implements com.example.gopalawasthi.
         headerpopular = view.findViewById(R.id.popularheader);
         swipeRefreshLayout = view.findViewById(R.id.swiperefreshlayout);
         viewallnowplaying = view.findViewById(R.id.showallnowplaying);
-
+        avi = view.findViewById(R.id.movieloading);
         swipeRefreshLayout.setRefreshing(true);
         //TOdo connectivity manager for the internet check
 
@@ -288,6 +290,7 @@ public class MovieFragment extends Fragment implements com.example.gopalawasthi.
 
 
     private void createfortoprated(View view) {
+        avi.setVisibility(View.VISIBLE);
         recyclertoprated = view.findViewById(R.id.thirdrecycler);
         toprated = new ArrayList<>();
         fetchdatafortoprated();
@@ -308,9 +311,8 @@ public class MovieFragment extends Fragment implements com.example.gopalawasthi.
                 if(response.body()!=null){
                     toprated.clear();
                     toprated.addAll(response.body().getResults());
-
                     topratedAdapter.notifyDataSetChanged();
-                }
+                } avi.setVisibility(View.GONE);
             }
 
             @Override

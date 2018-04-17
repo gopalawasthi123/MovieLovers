@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements com.example.gopal
         Picasso.get().load(IMAGE + c).into(this.poster);
         Picasso.get().load(IMAGE + d).fit().into(this.backdrop);
         description.setText(desc);
-        layout.setExpandedTitleGravity(Gravity.RIGHT | Gravity.BOTTOM);
+        layout.setExpandedTitleGravity(Gravity.END | Gravity.BOTTOM);
         layout.setExpandedTitleMarginStart(15);
         layout.setTitle(a);
         if (intent.hasCategory("TV")) {
