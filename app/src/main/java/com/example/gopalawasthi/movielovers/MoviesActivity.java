@@ -207,6 +207,7 @@ ListView listView;
         moviesDao.oninsertFavouriteMovie(nowlong);
         Bundle bundle = new Bundle();
         bundle.putInt(MOVIEDATABASE_ID,id);
+
         fragment.setArguments(bundle);
         Snackbar snackbar = Snackbar.make(coordinatorLayout,"Added to Favourites",Snackbar.LENGTH_SHORT);
         snackbar.setActionTextColor(Color.RED);

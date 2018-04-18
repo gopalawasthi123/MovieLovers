@@ -1,6 +1,8 @@
 package com.example.gopalawasthi.movielovers;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -11,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,19 +33,23 @@ import static com.example.gopalawasthi.movielovers.MovieFragment.LANGUGAGE;
 import static com.example.gopalawasthi.movielovers.MovieFragment.PAGE;
 import static com.example.gopalawasthi.movielovers.MovieFragment.POPULAR_CATEGORY;
 import static com.example.gopalawasthi.movielovers.MovieFragment.TOPRATED_CATEGORY;
+import static com.example.gopalawasthi.movielovers.MoviesActivity.MOVIEDATABASE_ID;
 
 
-public class ShowallList extends AppCompatActivity {
+public class ShowallList extends AppCompatActivity  {
     int pagecount = 1;
     RecyclerView recyclerView;
     List<Nowplaying.ResultsBean> list;
     MoviesAdapter adapter;
     TvtopratedAdapter tvtopratedAdapter;
     List<TvClass.ResultsBean> populartv;
-
+    MoviesDao dao;
+    Moviedatabase moviedatabase;
+    FavouriteFragment fragment;
     Button button;
     AVLoadingIndicatorView avi;
     Indicator indicator;
+    FrameLayout frameLayout;
 
      String a;
     private boolean loading = true;
@@ -55,6 +62,8 @@ public class ShowallList extends AppCompatActivity {
         setContentView(R.layout.activity_showall_list);
         avi = findViewById(R.id.avi);
         Intent intent = getIntent();
+        frameLayout = findViewById(R.id.frameshowall);
+
 
 
         if(intent.hasCategory("nowplaying")){
@@ -79,7 +88,7 @@ public class ShowallList extends AppCompatActivity {
     }
 
     private void createforpopulartv(final String a) {
-
+        fragment = new FavouriteFragment();
         populartv = new ArrayList<>();
         recyclerView = findViewById(R.id.showalllistrecycler);
         fetchdatafrompopulartv(a);
@@ -180,7 +189,16 @@ public class ShowallList extends AppCompatActivity {
 
             @Override
             public void onlongItemclick(int position) {
-
+                 Nowplaying.ResultsBean bean  =  list.get(position);
+                 int id = bean.getId();
+                moviedatabase = Moviedatabase.getINSTANCE(ShowallList.this);
+                dao = moviedatabase.getMovieDao();
+                dao.oninsertFavouriteMovie(bean);
+                Snackbar snackbar = Snackbar.make(frameLayout,"Added to Favourites",Snackbar.LENGTH_SHORT);
+                snackbar.show();
+//                Bundle bundle = new Bundle();
+//                bundle.putInt(MOVIEDATABASE_ID,id);
+//                fragment.setArguments(bundle);
             }
         });
         recyclerView.setAdapter(adapter);
@@ -258,4 +276,6 @@ public class ShowallList extends AppCompatActivity {
 
     public void LoadMoreSearch(View view) {
     }
+
+
 }

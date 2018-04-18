@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
 import android.telecom.Call;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -104,6 +106,8 @@ public class TvFragment extends Fragment{
         tvpopularrecycler.setAdapter(popularadapter);
         tvpopularrecycler.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
         tvpopularrecycler.setOnFlingListener(null);
+        SnapHelper snapHelper = new LinearSnapHelper();
+        snapHelper.attachToRecyclerView(tvpopularrecycler);
         refresh.setRefreshing(false);
     }
 
@@ -142,6 +146,8 @@ public class TvFragment extends Fragment{
         tvopratedrecycler.setAdapter(adapter);
         tvopratedrecycler.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
         tvopratedrecycler.setOnFlingListener(null);
+        SnapHelper snapHelper = new LinearSnapHelper();
+        snapHelper.attachToRecyclerView(tvopratedrecycler);
         refresh.setRefreshing(false
         );
     }
