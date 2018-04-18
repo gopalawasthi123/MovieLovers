@@ -51,9 +51,9 @@ public class TvFragment extends Fragment{
     public interface onTvclick{
         void ontopratedmovieClick(TvClass.ResultsBean resultsBean);
         void onpopularmovieClick(TvClass.ResultsBean resultsBean);
-
+        void ontopratedLongClick(TvClass.ResultsBean toprated);
+        void onpopularLongClick(TvClass.ResultsBean popular);
         void  showallpopulartv(View view);
-
         void showalltopratedtv(View view);
     }
 
@@ -102,6 +102,12 @@ public class TvFragment extends Fragment{
                 TvClass.ResultsBean myresult = tvpopular.get(position);
                 tvclick.ontopratedmovieClick(myresult);
             }
+
+            @Override
+            public void onitemLongclick(int position) {
+                TvClass.ResultsBean popular = tvpopular.get(position);
+                tvclick.ontopratedLongClick(popular);
+            }
         });
         tvpopularrecycler.setAdapter(popularadapter);
         tvpopularrecycler.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
@@ -141,6 +147,12 @@ public class TvFragment extends Fragment{
             public void onitemclick(int position) {
                 TvClass.ResultsBean myresult = tvtoprated.get(position);
                 tvclick.onpopularmovieClick(myresult);
+            }
+
+            @Override
+            public void onitemLongclick(int position) {
+                TvClass.ResultsBean toprate = tvtoprated.get(position);
+                tvclick.onpopularLongClick(toprate);
             }
         });
         tvopratedrecycler.setAdapter(adapter);

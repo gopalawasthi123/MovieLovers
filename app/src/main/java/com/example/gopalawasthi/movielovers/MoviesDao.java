@@ -33,5 +33,11 @@ public interface MoviesDao {
    @Delete
     void ondeleteFavouriteMovie(Nowplaying.ResultsBean bean);
 
+   @Insert(onConflict =  OnConflictStrategy.REPLACE)
+    void oninsertFavouriteTvShow(TvClass.ResultsBean tvlist);
+
+   @Query("SELECT * FROM tvlist")
+    List<TvClass.ResultsBean> getalltvshows();
+
 }
  

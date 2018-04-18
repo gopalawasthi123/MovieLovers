@@ -56,7 +56,7 @@ import static java.util.Collections.addAll;
 public class MoviesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,MovieFragment.onMovieClickInterfacecallback,TvFragment.onTvclick , FavouriteFragment.onMovieclicklistener {
 
     List<Nowplaying.ResultsBean> ListNow;
-
+    public static final String TV_DATABASE = "tv";
 
 
     @Override
@@ -72,7 +72,11 @@ ListView listView;
     ArrayList<String> arrayList;
     Moviedatabase moviedatabase;
     FavouriteFragment fragment;
+    FavouriteTvFragment myfragment;
     MoviesDao moviesDao;
+
+
+    MoviesDao tvdao;
     public static final String MOVIEDATABASE_ID ="id";
     CoordinatorLayout coordinatorLayout ;
 
@@ -86,6 +90,8 @@ ListView listView;
         Toolbar toolbar =  findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         fragment = new FavouriteFragment();
+        myfragment = new FavouriteTvFragment();
+
 
 
 //        screenSize = getResources().getSystem().getConfiguration().screenLayout &
@@ -121,7 +127,7 @@ ListView listView;
 
             setfragment(new TvFragment());
         } else if (id == R.id.nav_slideshow) {
-            setfragment(fragment);
+            setfragment(new RootFragment());
 
         } else if (id == R.id.nav_share) {
 
@@ -317,6 +323,32 @@ ListView listView;
         intent.putExtra("moviebackdrop",resultsBean.getBackdrop_path());
         intent.putExtra("description",resultsBean.getOverview());
         startActivity(intent);
+    }
+
+    @Override
+    public void ontopratedLongClick(TvClass.ResultsBean toprated) {
+
+        int id =  toprated.getId();
+        moviesDao.oninsertFavouriteTvShow(toprated);
+        Bundle bundle = new Bundle();
+        bundle.putInt(TV_DATABASE,id);
+        myfragment.setArguments(bundle);
+//        Snackbar snackbar = Snackbar.make(coordinatorLayout,"Added to Favourites",Snackbar.LENGTH_SHORT);
+//        snackbar.setActionTextColor(Color.RED);
+//        snackbar.show();
+    }
+
+    @Override
+    public void onpopularLongClick(TvClass.ResultsBean popular) {
+        int id =  popular.getId();
+        moviesDao.oninsertFavouriteTvShow(popular);
+        Bundle bundle = new Bundle();
+        bundle.putInt(TV_DATABASE,id);
+        myfragment.setArguments(bundle);
+//        Snackbar snackbar = Snackbar.make(coordinatorLayout,"Added to Favourites",Snackbar.LENGTH_SHORT);
+//        snackbar.setActionTextColor(Color.RED);
+//        snackbar.show();
+
     }
 
     @Override

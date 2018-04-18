@@ -64,7 +64,8 @@
                             android:layout_marginRight="6dp"
                             android:textSize="20sp"
                             android:onClick="showallnowplaying"
-                            android:text="Show all"/>
+                            android:text="Show all"
+                            tools:ignore="OnClick" />
 
                     </LinearLayout>
 
@@ -101,7 +102,7 @@
                             android:text="Show all"
                             android:textSize="20sp"
                             android:gravity="right"
-                           />
+                            tools:ignore="OnClick" />
                     </LinearLayout>
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/secondrecycler"
@@ -133,7 +134,8 @@
                             android:layout_weight="1"
                             android:text="Show all"
                             android:textSize="20sp"
-                            android:gravity="right"/>
+                            android:gravity="right"
+                            tools:ignore="OnClick" />
                     </LinearLayout>
 
                     <android.support.v7.widget.RecyclerView
@@ -167,7 +169,8 @@
                             android:layout_weight="1"
                             android:text="Show all"
                             android:textSize="20sp"
-                            android:gravity="right"/>
+                            android:gravity="right"
+                            tools:ignore="OnClick" />
                     </LinearLayout>
 
                     <android.support.v7.widget.RecyclerView

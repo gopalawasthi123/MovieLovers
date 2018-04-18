@@ -9,7 +9,7 @@ import android.content.Context;
  * Created by Gopal Awasthi on 29-03-2018.
  */
 
-@Database(entities = Nowplaying.ResultsBean.class,version = 1,exportSchema = false)
+@Database(entities = {Nowplaying.ResultsBean.class,TvClass.ResultsBean.class},version = 1,exportSchema = false)
 
 public abstract class Moviedatabase extends RoomDatabase {
 

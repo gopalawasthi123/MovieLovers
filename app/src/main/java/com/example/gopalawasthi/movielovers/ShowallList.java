@@ -106,6 +106,11 @@ public class ShowallList extends AppCompatActivity  {
                 intent.putExtra("description",populartv.get(position).getOverview());
                 startActivity(intent);
             }
+
+            @Override
+            public void onitemLongclick(int position) {
+
+            }
         });
         recyclerView.setAdapter(tvtopratedAdapter);
         linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);

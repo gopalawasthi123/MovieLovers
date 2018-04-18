@@ -29,6 +29,7 @@ public class TvtopratedAdapter extends RecyclerView.Adapter<TvtopratedAdapter.My
 
     interface  onitemClicklistener{
         void onitemclick(int position);
+        void onitemLongclick(int position);
     }
     public TvtopratedAdapter(Context context, List<TvClass.ResultsBean> list, onitemClicklistener clicklistener) {
         this.context = context;
@@ -56,6 +57,13 @@ public class TvtopratedAdapter extends RecyclerView.Adapter<TvtopratedAdapter.My
             @Override
             public void onClick(View v) {
                 clicklistener.onitemclick(holder.getAdapterPosition());
+            }
+        });
+        holder.imageView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                clicklistener.onitemLongclick(holder.getAdapterPosition());
+                return true;
             }
         });
         holder.name.setText(resultsBean.getName());
