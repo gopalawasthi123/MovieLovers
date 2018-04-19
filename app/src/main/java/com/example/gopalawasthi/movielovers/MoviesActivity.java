@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
@@ -53,11 +54,16 @@ import static com.example.gopalawasthi.movielovers.MovieFragment.LANGUGAGE;
 import static com.example.gopalawasthi.movielovers.MovieFragment.PAGE;
 import static java.util.Collections.addAll;
 
-public class MoviesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,MovieFragment.onMovieClickInterfacecallback,TvFragment.onTvclick , FavouriteFragment.onMovieclicklistener {
+public class MoviesActivity extends AppCompatActivity implements
+        NavigationView.OnNavigationItemSelectedListener,
+        MovieFragment.onMovieClickInterfacecallback,
+        TvFragment.onTvclick,
+        FavouriteFragment.onMovieclicklistener,
+        FavouriteTvFragment.onTvclicklistener {
 
     List<Nowplaying.ResultsBean> ListNow;
     public static final String TV_DATABASE = "tv";
-
+    Boolean onpressBack = false;
 
     @Override
     protected void onResume() {
@@ -66,7 +72,7 @@ public class MoviesActivity extends AppCompatActivity implements NavigationView.
     }
 
     //
-ListView listView;
+    ListView listView;
     SearchView searchView;
     Dialog dialog;
     ArrayList<String> arrayList;
@@ -77,8 +83,8 @@ ListView listView;
 
 
     MoviesDao tvdao;
-    public static final String MOVIEDATABASE_ID ="id";
-    CoordinatorLayout coordinatorLayout ;
+    public static final String MOVIEDATABASE_ID = "id";
+    CoordinatorLayout coordinatorLayout;
 
     List<SearchClass.ResultsBean> searchClassList;
 //    GridLayoutManager gridLayoutManager;
@@ -87,11 +93,10 @@ ListView listView;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.movies);
-        Toolbar toolbar =  findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         fragment = new FavouriteFragment();
         myfragment = new FavouriteTvFragment();
-
 
 
 //        screenSize = getResources().getSystem().getConfiguration().screenLayout &
@@ -105,7 +110,7 @@ ListView listView;
                 (AppCompatActivity) this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-              NavigationView navigationView = this.findViewById(R.id.nav_view);
+        NavigationView navigationView = this.findViewById(R.id.nav_view);
 
         coordinatorLayout = findViewById(R.id.moviecontainer);
         navigationView.setNavigationItemSelectedListener(this);
@@ -113,13 +118,13 @@ ListView listView;
         searchClassList = new ArrayList<>();
         moviedatabase = Moviedatabase.getINSTANCE(MoviesActivity.this);
         moviesDao = moviedatabase.getMovieDao();
-   }
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
-        if(id == R.id.nav_camera) {
+        if (id == R.id.nav_camera) {
 
             setfragment(new MovieFragment());
             // Handle the camera action
@@ -141,70 +146,71 @@ ListView listView;
 
     private void setfragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.moviecontainer,fragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.moviecontainer, fragment).commit();
 
 
     }
 
     @Override
     public void onmovieClick(Nowplaying.ResultsBean nowplaying) {
-        Intent intent = new Intent(this,MainActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
 
-        int a =  nowplaying.getId();
-      String b =  nowplaying.getTitle();
-        intent.putExtra("movieid",a);
-        intent.putExtra("moviename",b);
-        intent.putExtra("movieposter",nowplaying.getPoster_path());
-        intent.putExtra("moviebackdrop",nowplaying.getBackdrop_path());
-        intent.putExtra("description",nowplaying.getOverview());
+        int a = nowplaying.getId();
+        String b = nowplaying.getTitle();
+        intent.putExtra("movieid", a);
+        intent.putExtra("moviename", b);
+        intent.putExtra("movieposter", nowplaying.getPoster_path());
+        intent.putExtra("moviebackdrop", nowplaying.getBackdrop_path());
+        intent.putExtra("description", nowplaying.getOverview());
         startActivity(intent);
     }
 
     @Override
     public void onpopularmovieClick(Nowplaying.ResultsBean popular) {
-        Intent intent = new Intent(this,MainActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         int a = popular.getId();
-        String b =  popular.getTitle();
-        intent.putExtra("movieid",a);
-        intent.putExtra("moviename",b);
-        intent.putExtra("movieposter",popular.getPoster_path());
-        intent.putExtra("moviebackdrop",popular.getBackdrop_path());
-        intent.putExtra("description",popular.getOverview());
+        String b = popular.getTitle();
+        intent.putExtra("movieid", a);
+        intent.putExtra("moviename", b);
+        intent.putExtra("movieposter", popular.getPoster_path());
+        intent.putExtra("moviebackdrop", popular.getBackdrop_path());
+        intent.putExtra("description", popular.getOverview());
         startActivity(intent);
 
     }
 
     @Override
     public void ontopratedmovieClick(Nowplaying.ResultsBean toprated) {
-        Intent intent = new Intent(this,MainActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         int a = toprated.getId();
-        String b =  toprated.getTitle();
-        intent.putExtra("movieid",a);
-        intent.putExtra("moviename",b);
-        intent.putExtra("movieposter",toprated.getPoster_path());
-        intent.putExtra("moviebackdrop",toprated.getBackdrop_path());
-        intent.putExtra("description",toprated
+        String b = toprated.getTitle();
+        intent.putExtra("movieid", a);
+        intent.putExtra("moviename", b);
+        intent.putExtra("movieposter", toprated.getPoster_path());
+        intent.putExtra("moviebackdrop", toprated.getBackdrop_path());
+        intent.putExtra("description", toprated
                 .getOverview());
         startActivity(intent);
     }
 
     @Override
     public void onupcomingmovieclick(Nowplaying.ResultsBean upcoming) {
-        Intent intent = new Intent(this,MainActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
 
-        int a =  upcoming.getId();
-        String b =  upcoming.getTitle();
-        intent.putExtra("movieid",a);
-        intent.putExtra("moviename",b);
-        intent.putExtra("movieposter",upcoming.getPoster_path());
-        intent.putExtra("moviebackdrop",upcoming.getBackdrop_path());
-        intent.putExtra("description",upcoming.getOverview());
+        int a = upcoming.getId();
+        String b = upcoming.getTitle();
+        intent.putExtra("movieid", a);
+        intent.putExtra("moviename", b);
+        intent.putExtra("movieposter", upcoming.getPoster_path());
+        intent.putExtra("moviebackdrop", upcoming.getBackdrop_path());
+        intent.putExtra("description", upcoming.getOverview());
         startActivity(intent);
     }
+
     // Todo
     @Override
-    public  void onnowplayinglongclick(Nowplaying.ResultsBean nowlong) {
-       int id =  nowlong.getId();
+    public void onnowplayinglongclick(Nowplaying.ResultsBean nowlong) {
+        int id = nowlong.getId();
 //       String title = nowlong.getTitle();
 //       String  backdrop = nowlong.getBackdrop_path();
 //       String userrating =  String.valueOf(nowlong.getVote_average());
@@ -212,76 +218,77 @@ ListView listView;
 
         moviesDao.oninsertFavouriteMovie(nowlong);
         Bundle bundle = new Bundle();
-        bundle.putInt(MOVIEDATABASE_ID,id);
+        bundle.putInt(MOVIEDATABASE_ID, id);
 
         fragment.setArguments(bundle);
-        Snackbar snackbar = Snackbar.make(coordinatorLayout,"Added to Favourites",Snackbar.LENGTH_SHORT);
+        Snackbar snackbar = Snackbar.make(coordinatorLayout, "Added to Favourites", Snackbar.LENGTH_SHORT);
         snackbar.setActionTextColor(Color.RED);
         snackbar.show();
     }
 
     @Override
     public void onpopularlongClick(Nowplaying.ResultsBean poplong) {
-        int id =  poplong.getId();
+        int id = poplong.getId();
         moviesDao.oninsertFavouriteMovie(poplong);
         Bundle bundle = new Bundle();
-        bundle.putInt(MOVIEDATABASE_ID,id);
+        bundle.putInt(MOVIEDATABASE_ID, id);
         fragment.setArguments(bundle);
-        Snackbar snackbar = Snackbar.make(coordinatorLayout,"Added to Favourites",Snackbar.LENGTH_SHORT);
+        Snackbar snackbar = Snackbar.make(coordinatorLayout, "Added to Favourites", Snackbar.LENGTH_SHORT);
         snackbar.setActionTextColor(Color.RED);
         snackbar.show();
     }
 
     @Override
     public void ontopratedlongClick(Nowplaying.ResultsBean toprated) {
-        int id =  toprated.getId();
+        int id = toprated.getId();
         moviesDao.oninsertFavouriteMovie(toprated);
         Bundle bundle = new Bundle();
-        bundle.putInt(MOVIEDATABASE_ID,id);
+        bundle.putInt(MOVIEDATABASE_ID, id);
         fragment.setArguments(bundle);
-        Snackbar snackbar = Snackbar.make(coordinatorLayout,"Added to Favourites",Snackbar.LENGTH_SHORT);
+        Snackbar snackbar = Snackbar.make(coordinatorLayout, "Added to Favourites", Snackbar.LENGTH_SHORT);
         snackbar.setActionTextColor(Color.RED);
         snackbar.show();
     }
 
     @Override
     public void onupcominglongClick(Nowplaying.ResultsBean upcoming) {
-        int id =  upcoming.getId();
+        int id = upcoming.getId();
         moviesDao.oninsertFavouriteMovie(upcoming);
         Bundle bundle = new Bundle();
-        bundle.putInt(MOVIEDATABASE_ID,id);
+        bundle.putInt(MOVIEDATABASE_ID, id);
         fragment.setArguments(bundle);
-        Snackbar snackbar = Snackbar.make(coordinatorLayout,"Added to Favourites",Snackbar.LENGTH_SHORT);
+        Snackbar snackbar = Snackbar.make(coordinatorLayout, "Added to Favourites", Snackbar.LENGTH_SHORT);
         snackbar.setActionTextColor(Color.RED);
         snackbar.show();
 
     }
 
     public void showallnowplaying(View view) {
-        Intent intent = new Intent(this,ShowallList.class);
+        Intent intent = new Intent(this, ShowallList.class);
         intent.addCategory("nowplaying");
         startActivity(intent);
 
     }
 
     public void showallpopular(View view) {
-        Intent intent = new Intent(this,ShowallList.class);
+        Intent intent = new Intent(this, ShowallList.class);
         intent.addCategory("popular");
         startActivity(intent);
     }
 
     public void showalltoprated(View view) {
-        Intent intent = new Intent(this,ShowallList.class);
+        Intent intent = new Intent(this, ShowallList.class);
         intent.addCategory("toprated");
         startActivity(intent);
     }
 
 
     public void showallupcoming(View view) {
-        Intent intent = new Intent(this,ShowallList.class);
+        Intent intent = new Intent(this, ShowallList.class);
         intent.addCategory("upcoming");
         startActivity(intent);
     }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -290,79 +297,90 @@ ListView listView;
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            Handler handler = new Handler();
+            if (onpressBack) {
+                finish();
+            }
+            Toast.makeText(this, "press back again to exit!!", Toast.LENGTH_SHORT).show();
+            onpressBack = true;
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    onpressBack = false;
+                }
+            }, 2000);
+
         }
     }
 
 
     @Override
     public void ontopratedmovieClick(TvClass.ResultsBean resultsBean) {
-        Intent intent = new Intent(MoviesActivity.this,MainActivity.class);
-        int a =  resultsBean.getId();
-        String b =  resultsBean.getName();
+        Intent intent = new Intent(MoviesActivity.this, MainActivity.class);
+        int a = resultsBean.getId();
+        String b = resultsBean.getName();
         intent.addCategory("TV");
-        intent.putExtra("movieid",a);
-        intent.putExtra("moviename",b);
-        intent.putExtra("movieposter",resultsBean.getPoster_path());
-        intent.putExtra("moviebackdrop",resultsBean.getBackdrop_path());
-        intent.putExtra("description",resultsBean.getOverview());
+        intent.putExtra("movieid", a);
+        intent.putExtra("moviename", b);
+        intent.putExtra("movieposter", resultsBean.getPoster_path());
+        intent.putExtra("moviebackdrop", resultsBean.getBackdrop_path());
+        intent.putExtra("description", resultsBean.getOverview());
         startActivity(intent);
     }
 
 
-
     @Override
     public void onpopularmovieClick(TvClass.ResultsBean resultsBean) {
-        Intent intent = new Intent(MoviesActivity.this,MainActivity.class);
-        int a =  resultsBean.getId();
-        String b =  resultsBean.getName();
+        Intent intent = new Intent(MoviesActivity.this, MainActivity.class);
+        int a = resultsBean.getId();
+        String b = resultsBean.getName();
         intent.addCategory("TV");
-        intent.putExtra("movieid",a);
-        intent.putExtra("moviename",b);
-        intent.putExtra("movieposter",resultsBean.getPoster_path());
-        intent.putExtra("moviebackdrop",resultsBean.getBackdrop_path());
-        intent.putExtra("description",resultsBean.getOverview());
+        intent.putExtra("movieid", a);
+        intent.putExtra("moviename", b);
+        intent.putExtra("movieposter", resultsBean.getPoster_path());
+        intent.putExtra("moviebackdrop", resultsBean.getBackdrop_path());
+        intent.putExtra("description", resultsBean.getOverview());
         startActivity(intent);
     }
 
     @Override
     public void ontopratedLongClick(TvClass.ResultsBean toprated) {
 
-        int id =  toprated.getId();
+        int id = toprated.getId();
         moviesDao.oninsertFavouriteTvShow(toprated);
         Bundle bundle = new Bundle();
-        bundle.putInt(TV_DATABASE,id);
+        bundle.putInt(TV_DATABASE, id);
         myfragment.setArguments(bundle);
-//        Snackbar snackbar = Snackbar.make(coordinatorLayout,"Added to Favourites",Snackbar.LENGTH_SHORT);
-//        snackbar.setActionTextColor(Color.RED);
-//        snackbar.show();
+        Snackbar snackbar = Snackbar.make(coordinatorLayout, "Added to Favourites", Snackbar.LENGTH_SHORT);
+        snackbar.setActionTextColor(Color.RED);
+        snackbar.show();
     }
 
     @Override
     public void onpopularLongClick(TvClass.ResultsBean popular) {
-        int id =  popular.getId();
+        int id = popular.getId();
         moviesDao.oninsertFavouriteTvShow(popular);
         Bundle bundle = new Bundle();
-        bundle.putInt(TV_DATABASE,id);
+        bundle.putInt(TV_DATABASE, id);
         myfragment.setArguments(bundle);
-//        Snackbar snackbar = Snackbar.make(coordinatorLayout,"Added to Favourites",Snackbar.LENGTH_SHORT);
-//        snackbar.setActionTextColor(Color.RED);
-//        snackbar.show();
+        Snackbar snackbar = Snackbar.make(coordinatorLayout, "Added to Favourites", Snackbar.LENGTH_SHORT);
+        snackbar.setActionTextColor(Color.RED);
+        snackbar.show();
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main2,menu);
-        final SearchView searchView =(SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_settings));
-        SearchManager searchManager =(SearchManager) getSystemService(SEARCH_SERVICE);
+        getMenuInflater().inflate(R.menu.main2, menu);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_settings));
+        SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-               Intent intent = new Intent(MoviesActivity.this,SearchActvity.class);
-               intent.putExtra("query",query);
-               startActivity(intent);
+                Intent intent = new Intent(MoviesActivity.this, SearchActvity.class);
+                intent.putExtra("query", query);
+                startActivity(intent);
                 return true;
             }
 
@@ -371,13 +389,13 @@ ListView listView;
             public boolean onQueryTextChange(final String newText) {
                 searchClassList = new ArrayList<>();
 
-                if( newText.length() >= 3 ){
+                if (newText.length() >= 3) {
 
-                  final retrofit2.Call<SearchClass> searchClassCall = ApiClient.getINSTANCE().getMoviesInterface().getsearchall(API_key,LANGUGAGE,newText,PAGE,false);
+                    final retrofit2.Call<SearchClass> searchClassCall = ApiClient.getINSTANCE().getMoviesInterface().getsearchall(API_key, LANGUGAGE, newText, PAGE, false);
                     searchClassCall.enqueue(new Callback<SearchClass>() {
                         @Override
                         public void onResponse(retrofit2.Call<SearchClass> call, Response<SearchClass> response) {
-                            if(response.isSuccessful()){
+                            if (response.isSuccessful()) {
 
 
                             }
@@ -388,10 +406,10 @@ ListView listView;
 
                         }
                     });
-                }else{
+                } else {
 
                 }
-             return true;
+                return true;
             }
         });
         return true;
@@ -400,24 +418,24 @@ ListView listView;
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if(item.getItemId()==R.id.action_settings){
+        if (item.getItemId() == R.id.action_settings) {
             setfragment(new Searchhint());
         }
-    return  true;
+        return true;
     }
 
 
     @Override
-    public void  showallpopulartv(View view){
-        Intent intent = new Intent(this,ShowallList.class);
+    public void showallpopulartv(View view) {
+        Intent intent = new Intent(this, ShowallList.class);
         intent.addCategory("tvpopular");
         startActivity(intent);
 
     }
 
     @Override
-    public void showalltopratedtv(View view){
-        Intent intent = new Intent(this,ShowallList.class);
+    public void showalltopratedtv(View view) {
+        Intent intent = new Intent(this, ShowallList.class);
         intent.addCategory("tvtoprated");
         startActivity(intent);
     }
@@ -425,15 +443,30 @@ ListView listView;
 
     @Override
     public void onmovieClickfavourite(Nowplaying.ResultsBean bean) {
-        Intent intent = new Intent(this,MainActivity.class);
-        int a =  bean.getId();
-        String b =  bean.getTitle();
-        intent.putExtra("movieid",a);
-        intent.putExtra("moviename",b);
-        intent.putExtra("movieposter",bean.getPoster_path());
-        intent.putExtra("moviebackdrop",bean.getBackdrop_path());
-        intent.putExtra("description",bean.getOverview());
+        Intent intent = new Intent(this, MainActivity.class);
+        int a = bean.getId();
+        String b = bean.getTitle();
+        intent.putExtra("movieid", a);
+        intent.putExtra("moviename", b);
+        intent.putExtra("movieposter", bean.getPoster_path());
+        intent.putExtra("moviebackdrop", bean.getBackdrop_path());
+        intent.putExtra("description", bean.getOverview());
         startActivity(intent);
     }
+
+    @Override
+    public void ontvClickfavourite(TvClass.ResultsBean bean) {
+        Intent intent = new Intent(this, MainActivity.class);
+        int a = bean.getId();
+        String b = bean.getName();
+        intent.putExtra("movieid", a);
+        intent.putExtra("moviename", b);
+        intent.putExtra("movieposter", bean.getPoster_path());
+        intent.putExtra("moviebackdrop", bean.getBackdrop_path());
+        intent.putExtra("description", bean.getOverview());
+        startActivity(intent);
+    }
+
+
 }
 

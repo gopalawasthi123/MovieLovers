@@ -4,22 +4,13 @@
     android:layout_height="match_parent"
     tools:context="com.example.gopalawasthi.movielovers.FavouriteFragment">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:stretchColumns="1">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerfavourite"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
 
-        </TableLayout>
 
-    </ScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

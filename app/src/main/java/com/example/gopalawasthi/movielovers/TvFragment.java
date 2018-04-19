@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.wang.avi.AVLoadingIndicatorView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +44,7 @@ public class TvFragment extends Fragment{
     TvtopratedAdapter adapter;
     TvtopratedAdapter popularadapter;
     CustomSwipetoRefresh refresh;
+    AVLoadingIndicatorView avi;
 
 
     public TvFragment() {
@@ -73,7 +76,7 @@ public class TvFragment extends Fragment{
                              Bundle savedInstanceState) {
        final View view = inflater.inflate(R.layout.fragment_tv, container, false);;
         // Inflate the layout for this fragment
-
+            avi = view.findViewById(R.id.avitv);
             refresh = view.findViewById(R.id.swiperefreshlayout);
             refresh.setRefreshing(true);
             createfortopratedtv(view);
@@ -138,7 +141,7 @@ public class TvFragment extends Fragment{
 
     private void createfortopratedtv(View view) {
         refresh.setRefreshing(true);
-
+        avi.setVisibility(View.VISIBLE);
         tvopratedrecycler = view.findViewById(R.id.topratetvrecycler);
         tvtoprated = new ArrayList<>();
         fetchdatafromnetwork();
@@ -173,7 +176,7 @@ public class TvFragment extends Fragment{
                     tvtoprated.clear();
                     tvtoprated.addAll(response.body().getResults());
                     adapter.notifyDataSetChanged();
-                }
+                }avi.setVisibility(View.GONE);
             }
 
             @Override

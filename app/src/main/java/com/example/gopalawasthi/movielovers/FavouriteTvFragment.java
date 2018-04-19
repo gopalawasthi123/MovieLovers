@@ -2,6 +2,7 @@ package com.example.gopalawasthi.movielovers;
 
 
 import android.arch.persistence.room.Dao;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,10 +29,29 @@ public class FavouriteTvFragment extends Fragment implements TvtopratedAdapter.o
         Moviedatabase tvdatabase;
         MoviesDao dao;
         int id;
-
+    onTvclicklistener tvclicklistener;
     public FavouriteTvFragment() {
         // Required empty public constructor
     }
+
+    public interface  onTvclicklistener{
+        void ontvClickfavourite(TvClass.ResultsBean bean);
+    }
+
+
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try{
+            tvclicklistener  = (FavouriteTvFragment.onTvclicklistener) context;
+
+        }catch (ClassCastException e){
+
+        }
+
+    }
+
 
 
     @Override
@@ -60,6 +80,8 @@ public class FavouriteTvFragment extends Fragment implements TvtopratedAdapter.o
 
     @Override
     public void onitemclick(int position) {
+        TvClass.ResultsBean bean = mylist.get(position);
+        tvclicklistener.ontvClickfavourite(bean);
 
     }
 

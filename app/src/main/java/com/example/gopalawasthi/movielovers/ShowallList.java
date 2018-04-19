@@ -48,7 +48,6 @@ public class ShowallList extends AppCompatActivity  {
     FavouriteFragment fragment;
     Button button;
     AVLoadingIndicatorView avi;
-    Indicator indicator;
     FrameLayout frameLayout;
 
      String a;
@@ -109,7 +108,12 @@ public class ShowallList extends AppCompatActivity  {
 
             @Override
             public void onitemLongclick(int position) {
-
+                TvClass.ResultsBean bean = populartv.get(position);
+                moviedatabase = Moviedatabase.getINSTANCE(ShowallList.this);
+                dao = moviedatabase.getMovieDao();
+                dao.oninsertFavouriteTvShow(bean);
+                Snackbar snackbar = Snackbar.make(frameLayout,"Added to Favourites",Snackbar.LENGTH_SHORT);
+                snackbar.show();
             }
         });
         recyclerView.setAdapter(tvtopratedAdapter);
