@@ -4,6 +4,7 @@ package com.example.gopalawasthi.movielovers;
 import android.arch.persistence.room.Dao;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -87,6 +88,12 @@ public class FavouriteTvFragment extends Fragment implements TvtopratedAdapter.o
 
     @Override
     public void onitemLongclick(int position) {
-
+        TvClass.ResultsBean bean = mylist.get(position);
+        dao.ondeleteFavouriteTvShow(bean);
+        mylist.clear();
+        mylist.addAll(dao.getalltvshows());
+        adapter.notifyDataSetChanged();
+        Snackbar snackbar = Snackbar.make(getView(),"Movie Deleted",Snackbar.LENGTH_SHORT);
+        snackbar.show();
     }
 }

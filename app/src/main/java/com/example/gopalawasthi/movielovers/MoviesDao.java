@@ -39,5 +39,8 @@ public interface MoviesDao {
    @Query("SELECT * FROM tvlist")
     List<TvClass.ResultsBean> getalltvshows();
 
+   @Delete
+    void ondeleteFavouriteTvShow(TvClass.ResultsBean  tvlist);
+
 }
  

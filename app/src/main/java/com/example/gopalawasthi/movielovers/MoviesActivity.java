@@ -125,13 +125,14 @@ public class MoviesActivity extends AppCompatActivity implements
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-
+            setTitle("Movies");
             setfragment(new MovieFragment());
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
-
+            setTitle("TvShows");
             setfragment(new TvFragment());
         } else if (id == R.id.nav_slideshow) {
+            setTitle("Favourite");
             setfragment(new RootFragment());
 
         } else if (id == R.id.nav_share) {

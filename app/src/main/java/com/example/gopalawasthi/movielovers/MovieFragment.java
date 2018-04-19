@@ -120,6 +120,7 @@ public class MovieFragment extends Fragment implements com.example.gopalawasthi.
         viewallnowplaying = view.findViewById(R.id.showallnowplaying);
         avi = view.findViewById(R.id.movieloading);
         swipeRefreshLayout.setRefreshing(true);
+
         //TOdo connectivity manager for the internet check
 
 
