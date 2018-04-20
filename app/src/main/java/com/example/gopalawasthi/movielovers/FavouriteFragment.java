@@ -1,6 +1,8 @@
 package com.example.gopalawasthi.movielovers;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -93,14 +95,30 @@ public class FavouriteFragment extends Fragment implements MoviesAdapter.onitemc
     }
 
     @Override
-    public void onlongItemclick(int position) {
-        Nowplaying.ResultsBean bean = list.get(position);
-        dao.ondeleteFavouriteMovie(bean);
-        list.clear();
-        list.addAll(dao.getallmovies());
-        adapter.notifyDataSetChanged();
-        Snackbar snackbar = Snackbar.make(getView(),"Movie Deleted",Snackbar.LENGTH_SHORT);
-        snackbar.show();
+    public void onlongItemclick(final int position) {
+      final AlertDialog.Builder  builder = new AlertDialog.Builder(getContext());
+        builder.setMessage("Do you want to Delete ?").setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Nowplaying.ResultsBean bean = list.get(position);
+                        dao.ondeleteFavouriteMovie(bean);
+                        list.clear();
+                        list.addAll(dao.getallmovies());
+                        adapter.notifyDataSetChanged();
+                        Snackbar snackbar = Snackbar.make(getView(),"Movie Deleted",Snackbar.LENGTH_SHORT);
+                        snackbar.show();
+                    }
+                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setTitle("alert for delete!!");
+        alertDialog.show();
+
 
     }
 }

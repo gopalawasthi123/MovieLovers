@@ -15,6 +15,7 @@ import android.telecom.Call;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.wang.avi.AVLoadingIndicatorView;
@@ -45,6 +46,8 @@ public class TvFragment extends Fragment{
     TvtopratedAdapter popularadapter;
     CustomSwipetoRefresh refresh;
     AVLoadingIndicatorView avi;
+    LinearLayout populartv;
+    LinearLayout topratedtv;
 
 
     public TvFragment() {
@@ -77,6 +80,8 @@ public class TvFragment extends Fragment{
        final View view = inflater.inflate(R.layout.fragment_tv, container, false);;
         // Inflate the layout for this fragment
             avi = view.findViewById(R.id.avitv);
+            populartv = view.findViewById(R.id.populartvshows);
+            topratedtv = view.findViewById(R.id.topratedtv);
             refresh = view.findViewById(R.id.swiperefreshlayout);
             refresh.setRefreshing(true);
             createfortopratedtv(view);
@@ -128,6 +133,7 @@ public class TvFragment extends Fragment{
                 if(response.body()!=null){
                     tvpopular.clear();
                     tvpopular.addAll(response.body().getResults());
+                    populartv.setVisibility(View.VISIBLE);
                     popularadapter.notifyDataSetChanged();
                 }
             }
@@ -176,6 +182,7 @@ public class TvFragment extends Fragment{
                     tvtoprated.clear();
                     tvtoprated.addAll(response.body().getResults());
                     adapter.notifyDataSetChanged();
+                    topratedtv.setVisibility(View.VISIBLE);
                 }avi.setVisibility(View.GONE);
             }
 

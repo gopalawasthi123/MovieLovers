@@ -148,7 +148,6 @@ public class ShowallList extends AppCompatActivity  {
             }
         });
 
-
     }
 
     private void fetchdatafrompopulartv(String a) {
@@ -165,7 +164,8 @@ public class ShowallList extends AppCompatActivity  {
 
             @Override
             public void onFailure(retrofit2.Call<TvClass> call, Throwable t) {
-                Toast.makeText(ShowallList.this, "fail", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ShowallList.this, "No Internet Connection!!", Toast.LENGTH_SHORT).show();
+                avi.setVisibility(View.GONE);
             }
         });
 
@@ -184,7 +184,7 @@ public class ShowallList extends AppCompatActivity  {
         adapter =  new MoviesAdapter(list, this, new MoviesAdapter.onitemclicklistener() {
             @Override
             public void onItemclick(int position) {
-                Toast.makeText(ShowallList.this, "item click at position"+position, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(ShowallList.this, "item click at position"+position, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(ShowallList.this,MainActivity.class);
                 int a = list.get(position).getId();
                 String b =  list.get(position).getTitle();
@@ -235,7 +235,6 @@ public class ShowallList extends AppCompatActivity  {
                             pagecount =pagecount+1;
                             fetchdatafromnetwork(a);
                         }
-
                     }
                 }
 
@@ -270,7 +269,8 @@ public class ShowallList extends AppCompatActivity  {
             }
             @Override
             public void onFailure(Call<Nowplaying> call, Throwable t) {
-
+                Toast.makeText(ShowallList.this, "No Internet Connection!!", Toast.LENGTH_SHORT).show();
+                avi.setVisibility(View.GONE);
             }
         });
 

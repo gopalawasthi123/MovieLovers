@@ -24,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -56,6 +57,7 @@ public class MovieFragment extends Fragment implements com.example.gopalawasthi.
     public static final int PAGE =1;
     public static final String API_key ="f05e7eb1cb1d184b717962fc1230e9c1";
     int screenSize;
+    FrameLayout framemovie;
     CustomSwipetoRefresh swipeRefreshLayout ;
     RecyclerView recyclerView;
     RecyclerView recyclerpopular;
@@ -68,6 +70,8 @@ public class MovieFragment extends Fragment implements com.example.gopalawasthi.
     ProgressBar progressBar;
     LinearLayout headernowplaying;
     LinearLayout headerpopular;
+    LinearLayout headertoprated;
+    LinearLayout headerupcoming;
     RecyclerView recyclertoprated;
     RecyclerView recyclerupcoming;
     List<Nowplaying.ResultsBean> upcominglist;
@@ -116,10 +120,13 @@ public class MovieFragment extends Fragment implements com.example.gopalawasthi.
                 Configuration.SCREENLAYOUT_SIZE_MASK;
         headernowplaying = view.findViewById(R.id.nowplayingheader);
         headerpopular = view.findViewById(R.id.popularheader);
+        headertoprated = view.findViewById(R.id.topratedheader);
+        headerupcoming = view.findViewById(R.id.upcomingheader);
         swipeRefreshLayout = view.findViewById(R.id.swiperefreshlayout);
         viewallnowplaying = view.findViewById(R.id.showallnowplaying);
         avi = view.findViewById(R.id.movieloading);
         swipeRefreshLayout.setRefreshing(true);
+
 
         //TOdo connectivity manager for the internet check
 
@@ -313,12 +320,17 @@ public class MovieFragment extends Fragment implements com.example.gopalawasthi.
                     toprated.clear();
                     toprated.addAll(response.body().getResults());
                     topratedAdapter.notifyDataSetChanged();
-                } avi.setVisibility(View.GONE);
+                    headertoprated.setVisibility(View.VISIBLE);
+
+                }
+                avi.setVisibility(View.GONE);
+
             }
 
             @Override
             public void onFailure(Call<Nowplaying> call, Throwable t) {
-
+                avi.setVisibility(View.GONE);
+                Toast.makeText(getContext(), "No internet Connection !!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -359,7 +371,7 @@ public class MovieFragment extends Fragment implements com.example.gopalawasthi.
                 if(response.body()!=null){
                     upcominglist.clear();
                     upcominglist.addAll(response.body().getResults());
-
+                    headerupcoming.setVisibility(View.VISIBLE);
                     upcomingAdapter.notifyDataSetChanged();
                 }
             }

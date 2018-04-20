@@ -22,7 +22,7 @@ public class HomeActivity extends AwesomeSplash{
     public void initSplash(ConfigSplash configSplash) {
         //Customize Circular Reveal
         configSplash.setBackgroundColor(R.color.colorPrimary); //any color you want form colors.xml
-        configSplash.setAnimCircularRevealDuration(2000); //int ms
+        configSplash.setAnimCircularRevealDuration(1000); //int ms
         configSplash.setRevealFlagX(Flags.REVEAL_RIGHT);  //or Flags.REVEAL_LEFT
         configSplash.setRevealFlagY(Flags.REVEAL_BOTTOM); //or Flags.REVEAL_TOP
 
@@ -38,10 +38,10 @@ public class HomeActivity extends AwesomeSplash{
         configSplash.setPathSplash(Constants.DROID_LOGO);
         configSplash.setOriginalHeight(400); //in relation to your svg (path) resource
         configSplash.setOriginalWidth(400); //in relation to your svg (path) resource
-        configSplash.setAnimPathStrokeDrawingDuration(2000);
+        configSplash.setAnimPathStrokeDrawingDuration(1000);
         configSplash.setPathSplashStrokeSize(3); //I advise value be <5
         configSplash.setPathSplashStrokeColor(R.color.colorsplash); //any color you want form colors.xml
-        configSplash.setAnimPathFillingDuration(2000);
+        configSplash.setAnimPathFillingDuration(1500);
         configSplash.setPathSplashFillColor(R.color.coloryellow); //path object filling color
 
 
@@ -49,7 +49,7 @@ public class HomeActivity extends AwesomeSplash{
         configSplash.setTitleSplash("Movie Lovers");
         configSplash.setTitleTextColor(R.color.colorWhite);
         configSplash.setTitleTextSize(30f); //float value
-        configSplash.setAnimTitleDuration(2000);
+        configSplash.setAnimTitleDuration(1500);
         configSplash.setAnimTitleTechnique(Techniques.FlipInX);
       //  configSplash.setTitleFont(); //provide string to your font located in assets/fonts/
     }

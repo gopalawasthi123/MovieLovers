@@ -97,6 +97,7 @@ public class MoviesActivity extends AppCompatActivity implements
         setSupportActionBar(toolbar);
         fragment = new FavouriteFragment();
         myfragment = new FavouriteTvFragment();
+        setTitle("Movies");
 
 
 //        screenSize = getResources().getSystem().getConfiguration().screenLayout &

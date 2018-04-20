@@ -53,6 +53,9 @@ public class SearchActvity extends AppCompatActivity implements SearchAdapter.se
 
                 Searchlist.clear();
                 Searchlist.addAll(response.body().getResults());
+                if(Searchlist.size()==0){
+                    Toast.makeText(SearchActvity.this, "No result found!!", Toast.LENGTH_SHORT).show();
+                }
               //  Log.d("SearchList",Searchlist.toString());
                 adapter.notifyDataSetChanged();
 
@@ -60,7 +63,7 @@ public class SearchActvity extends AppCompatActivity implements SearchAdapter.se
 
             @Override
             public void onFailure(Call<SearchClass> call, Throwable t) {
-                Toast.makeText(SearchActvity.this, t+"", Toast.LENGTH_LONG).show();
+                Toast.makeText(SearchActvity.this, "No Internet Connection!!", Toast.LENGTH_LONG).show();
                 Log.d("SearchList",t+"");
             }
         });

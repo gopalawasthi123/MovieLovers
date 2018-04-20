@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/framemovie"
     android:background="#424242"
     tools:context="com.example.gopalawasthi.movielovers.MovieFragment">
 
@@ -39,7 +40,8 @@
                     <LinearLayout
                         android:id="@+id/nowplayingheader"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -77,7 +79,8 @@
                     <LinearLayout
                         android:id="@+id/popularheader"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:visibility="gone">
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -108,7 +111,8 @@
                     <LinearLayout
                         android:id="@+id/topratedheader"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:visibility="gone">
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -141,7 +145,8 @@
                     <LinearLayout
                         android:id="@+id/upcomingheader"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:visibility="gone">
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

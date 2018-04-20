@@ -1,8 +1,10 @@
 package com.example.gopalawasthi.movielovers;
 
 
+import android.app.AlertDialog;
 import android.arch.persistence.room.Dao;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -23,7 +25,7 @@ import static com.example.gopalawasthi.movielovers.MoviesActivity.TV_DATABASE;
  * A simple {@link Fragment} subclass.
  */
 public class FavouriteTvFragment extends Fragment implements TvtopratedAdapter.onitemClicklistener {
-
+    Boolean ondelete;
         RecyclerView recyclerView;
         TvtopratedAdapter adapter;
         List<TvClass.ResultsBean> mylist;
@@ -87,13 +89,35 @@ public class FavouriteTvFragment extends Fragment implements TvtopratedAdapter.o
     }
 
     @Override
-    public void onitemLongclick(int position) {
-        TvClass.ResultsBean bean = mylist.get(position);
-        dao.ondeleteFavouriteTvShow(bean);
-        mylist.clear();
-        mylist.addAll(dao.getalltvshows());
-        adapter.notifyDataSetChanged();
-        Snackbar snackbar = Snackbar.make(getView(),"Movie Deleted",Snackbar.LENGTH_SHORT);
-        snackbar.show();
+    public void onitemLongclick(final int position) {
+          ondelete = false;
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage("Are you sure to want to delete ??").setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ondelete =  true;
+                TvClass.ResultsBean bean = mylist.get(position);
+                dao.ondeleteFavouriteTvShow(bean);
+                mylist.clear();
+                mylist.addAll(dao.getalltvshows());
+                adapter.notifyDataSetChanged();
+                Snackbar snackbar = Snackbar.make(getView(),"TvShow Deleted",Snackbar.LENGTH_SHORT);
+                snackbar.show();
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setTitle("alert for delete!!");
+        alertDialog.show();
+
+
     }
+
 }
+
